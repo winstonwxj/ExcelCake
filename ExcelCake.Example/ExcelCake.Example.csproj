@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{52E18478-3CFF-4036-8002-9FEF9A802BCB}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>XLSXCake.Example</RootNamespace>
-    <AssemblyName>XLSXCake.Example</AssemblyName>
+    <RootNamespace>ExcelCake.Example</RootNamespace>
+    <AssemblyName>ExcelCake.Example</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -54,9 +54,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\XLSXCake\XLSXCake.csproj">
+    <ProjectReference Include="..\XLSXCake\ExcelCake.csproj">
       <Project>{a7b5b393-5bfe-4440-8e56-0a21a0afca45}</Project>
-      <Name>XLSXCake</Name>
+      <Name>ExcelCake</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XLSXCake", "XLSXCake\XLSXCake.csproj", "{A7B5B393-5BFE-4440-8E56-0A21A0AFCA45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExcelCake", "ExcelCake\ExcelCake.csproj", "{A7B5B393-5BFE-4440-8E56-0A21A0AFCA45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XLSXCake.Example", "XLSXCake.Example\XLSXCake.Example.csproj", "{52E18478-3CFF-4036-8002-9FEF9A802BCB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelCake.Example", "ExcelCake.Example\ExcelCake.Example.csproj", "{52E18478-3CFF-4036-8002-9FEF9A802BCB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XLSXCake.Example.Core", "XLSXCake.Example.Core\XLSXCake.Example.Core.csproj", "{411E802C-5397-45F2-A2C5-3C558B9320AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExcelCake.Example.Core", "ExcelCake.Example.Core\ExcelCake.Example.Core.csproj", "{411E802C-5397-45F2-A2C5-3C558B9320AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XLSXCake.Test", "XLSXCake.Test\XLSXCake.Test.csproj", "{DE2FAA99-0F6E-4109-8B9E-2CDDB94E6616}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelCake.Test", "ExcelCake.Test\ExcelCake.Test.csproj", "{DE2FAA99-0F6E-4109-8B9E-2CDDB94E6616}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
