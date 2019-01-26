@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using XLSXCake.Intrusive;
-using XLSXCake.NoIntrusive;
+using ExcelCake.Intrusive;
+using ExcelCake.NoIntrusive;
 
-namespace XLSXCake.Example.Core
+namespace ExcelCake.Example.Core
 {
     class Program
     {

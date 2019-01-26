@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using XLSXCake.Intrusive;
-using XLSXCake.NoIntrusive;
+using ExcelCake.Intrusive;
+using ExcelCake.NoIntrusive;
 
-namespace XLSXCake.Example
+namespace ExcelCake.Example
 {
     class Program
     {

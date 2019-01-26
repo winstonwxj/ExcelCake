@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace XLSXCake.NoIntrusive
+namespace ExcelCake.NoIntrusive
 {
     public class DataObject
     {

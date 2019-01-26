@@ -54,7 +54,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\XLSXCake\ExcelCake.csproj">
+    <ProjectReference Include="..\ExcelCake\ExcelCake.csproj">
       <Project>{a7b5b393-5bfe-4440-8e56-0a21a0afca45}</Project>
       <Name>ExcelCake</Name>
     </ProjectReference>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace XLSXCake.Intrusive
+namespace ExcelCake.Intrusive
 {
     /// <summary>
     /// 导出模式类型枚举类
@@ -13,7 +13,7 @@ namespace XLSXCake.Intrusive
         /// <summary>
         /// 导出所有字段
         /// </summary>
-        ALL=0,
+        ALL = 0,
         /// <summary>
         /// 部分字段（导出ExportAttribute标注的字段）
         /// </summary>

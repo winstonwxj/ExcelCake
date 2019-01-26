@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Web;
 
-namespace XLSXCake.Intrusive
+namespace ExcelCake.Intrusive
 {
     /// <summary>
     // 导出表头合并特性

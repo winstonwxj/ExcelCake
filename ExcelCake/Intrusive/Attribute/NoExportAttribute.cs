@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace XLSXCake.Intrusive
+namespace ExcelCake.Intrusive
 {
     /// <summary>
     /// 不导出特性，标注不导出的字段

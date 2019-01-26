@@ -9,7 +9,7 @@ using System.Configuration;
 using OfficeOpenXml.Style;
 using System.Drawing;
 
-namespace XLSXCake.NoIntrusive
+namespace ExcelCake.NoIntrusive
 {
     public class TemplateSetting
     {

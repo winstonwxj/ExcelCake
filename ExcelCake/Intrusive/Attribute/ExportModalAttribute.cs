@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Web;
 
-namespace XLSXCake.Intrusive
+namespace ExcelCake.Intrusive
 {
     /// <summary>
     /// 导出模式特性，标注类的导出模式
@@ -15,7 +15,7 @@ namespace XLSXCake.Intrusive
         /// <summary>
         /// 导出模式，默认为全部
         /// </summary>
-        private EnumExportModalType exportModal;
+        //private EnumExportModalType exportModal;
         /// <summary>
         /// 表头颜色
         /// </summary>
@@ -25,13 +25,19 @@ namespace XLSXCake.Intrusive
         /// </summary>
         private string title;
 
-        public EnumExportModalType ExportModal
-        {
-            get
-            {
-                return exportModal;
-            }
-        }
+        //指定排序属性
+
+        //列高
+
+        //是否自动换行
+
+        //public EnumExportModalType ExportModal
+        //{
+        //    get
+        //    {
+        //        return exportModal;
+        //    }
+        //}
 
         public Color HeadColor
         {
@@ -51,21 +57,21 @@ namespace XLSXCake.Intrusive
 
         public ExportModalAttribute()
         {
-            exportModal = EnumExportModalType.ALL;
+            //exportModal = EnumExportModalType.ALL;
             headColor = Color.FromArgb(192, 192, 192);
             title = "";
         }
 
-        public ExportModalAttribute(EnumExportModalType modalType,string title="")
+        public ExportModalAttribute(string title="")
         {
-            exportModal = modalType;
+            //exportModal = modalType;
             headColor = Color.FromArgb(192, 192, 192);
             this.title = title;
         }
 
-        public ExportModalAttribute(EnumExportModalType modalType,Color headColor,string title="")
+        public ExportModalAttribute(Color headColor,string title="")
         {
-            exportModal = modalType;
+            //exportModal = modalType;
             this.headColor = headColor;
             this.title = title;
         }
