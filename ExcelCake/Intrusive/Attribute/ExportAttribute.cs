@@ -54,6 +54,7 @@ namespace ExcelCake.Intrusive
 
         public ExportAttribute(string name,int index=0)
         {
+            this.name = name;
             sortIndex = index;
         }
     }

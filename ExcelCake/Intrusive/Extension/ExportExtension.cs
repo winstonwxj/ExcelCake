@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 //using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -107,27 +108,27 @@ namespace ExcelCake.Intrusive
                 return;
             }
             Type type = typeof(T);
-            //ExcelWorksheet worksheet = package.Workbook.Worksheets.Add(sheetName);
+            Color headColor = Color.FromArgb(192, 192, 192);
 
             int columnIndex = 1;
             if (exportSetting.ExportStyle != null)
             {
                 var title = exportSetting.ExportStyle.Title;
-                var count = exportSetting.ExportColumns!=null?exportSetting.ExportColumns.Count:0;
-                //if (exportSetting.ExportStyle.HeadColor != null)
-                //{
-                //    headColor = exportSetting.ExportStyle.HeadColor;
-                //}
+                var count = (exportSetting.ExportColumns?.Count)??0;
+                if (exportSetting.ExportStyle.HeadColor != null)
+                {
+                    headColor = exportSetting.ExportStyle.HeadColor;
+                }
                 if (!string.IsNullOrEmpty(title) && count != 0)
                 {
-                    sheet.Cells[1, 1, count, count].Merge = true;
-                    sheet.Cells[1, 1, count, count].Value = title;
-                    sheet.Cells[1, 1, count, count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    sheet.Cells[1, 1, count, count].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                    sheet.Cells[1, 1, count, count].Style.Font.Bold = true;
-                    sheet.Cells[1, 1, count, count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                    //worksheet.Cells[1, 1, count, count].Style.Fill.BackgroundColor.SetColor(headColor);
-                    //worksheet.Cells[1, 1, count, count].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+                    sheet.Cells[1, 1, 1, count].Merge = true;
+                    sheet.Cells[1, 1, 1, count].Value = title;
+                    sheet.Cells[1, 1, 1, count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    sheet.Cells[1, 1, 1, count].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    sheet.Cells[1, 1, 1, count].Style.Font.Bold = true;
+                    sheet.Cells[1, 1, 1, count].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells[1, 1, 1, count].Style.Fill.BackgroundColor.SetColor(headColor);
+                    sheet.Cells[1, 1, 1, count].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
 
                 }
                 columnIndex++;
@@ -141,8 +142,8 @@ namespace ExcelCake.Intrusive
                 sheet.Cells[columnIndex, i + 1].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                 sheet.Cells[columnIndex, i + 1].Style.Font.Bold = true;
                 sheet.Cells[columnIndex, i + 1].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                //worksheet.Cells[columnIndex, i + 1].Style.Fill.BackgroundColor.SetColor(headColor);
-                //worksheet.Cells[columnIndex, i + 1].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+                sheet.Cells[columnIndex, i + 1].Style.Fill.BackgroundColor.SetColor(headColor);
+                sheet.Cells[columnIndex, i + 1].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
                 for (var j = 0; j < list.Count; j++)
                 {
                     object value = null;
@@ -155,75 +156,14 @@ namespace ExcelCake.Intrusive
                     {
                         value = "";
                     }
-                    sheet.Cells[j + columnIndex + 2, i + 1].Value = value ?? "";
-                    sheet.Cells[j + columnIndex + 2, i + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    sheet.Cells[j + columnIndex + 2, i + 1].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                    //worksheet.Cells[j + columnIndex + 2, i + 1].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+                    sheet.Cells[j + columnIndex + 1, i + 1].Value = value ?? "";
+                    sheet.Cells[j + columnIndex + 1, i + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    sheet.Cells[j + columnIndex + 1, i + 1].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    sheet.Cells[j + columnIndex + 1, i + 1].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
                 }
                 sheet.Column(i + 1).AutoFit();
             }
         }
-
-        //private static ExcelWorksheet FillExcelWorksheet<T>(ExcelPackage package, ExportExcelSetting exportSetting, List<T> list, string sheetName = "Sheet1") where T : ExcelBase, new()
-        //{
-        //    Type type = typeof(T);
-        //    ExcelWorksheet worksheet = package.Workbook.Worksheets.Add(sheetName);
-        //    //Color headColor = Color.FromArgb(192, 192, 192);
-        //    int columnIndex = 1;
-        //    if (exportSetting.ExportStyle != null)
-        //    {
-        //        var title = exportSetting.ExportStyle.Title;
-        //        var count = exportSetting.ExportColumns != null ? exportSetting.ExportColumns.Count : 0;
-        //        //if (exportSetting.ExportStyle.HeadColor != null)
-        //        //{
-        //        //    headColor = exportSetting.ExportStyle.HeadColor;
-        //        //}
-        //        if (!string.IsNullOrEmpty(title) && count != 0)
-        //        {
-        //            worksheet.Cells[1, 1, count, count].Merge = true;
-        //            worksheet.Cells[1, 1, count, count].Value = title;
-        //            worksheet.Cells[1, 1, count, count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-        //            worksheet.Cells[1, 1, count, count].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-        //            worksheet.Cells[1, 1, count, count].Style.Font.Bold = true;
-        //            worksheet.Cells[1, 1, count, count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-        //            //worksheet.Cells[1, 1, count, count].Style.Fill.BackgroundColor.SetColor(headColor);
-        //            //worksheet.Cells[1, 1, count, count].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
-
-        //        }
-        //        columnIndex++;
-        //    }
-
-        //    //写入数据
-        //    for (var i = 0; i < exportSetting.ExportColumns.Count; i++)
-        //    {
-        //        worksheet.Cells[columnIndex, i + 1].Value = exportSetting.ExportColumns[i].Text;
-        //        worksheet.Cells[columnIndex, i + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-        //        worksheet.Cells[columnIndex, i + 1].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-        //        worksheet.Cells[columnIndex, i + 1].Style.Font.Bold = true;
-        //        worksheet.Cells[columnIndex, i + 1].Style.Fill.PatternType = ExcelFillStyle.Solid;
-        //        //worksheet.Cells[columnIndex, i + 1].Style.Fill.BackgroundColor.SetColor(headColor);
-        //        //worksheet.Cells[columnIndex, i + 1].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
-        //        for (var j = 0; j < list.Count; j++)
-        //        {
-        //            object value = null;
-        //            try
-        //            {
-        //                PropertyInfo propertyInfo = type.GetProperty(exportSetting.ExportColumns[i].Value);
-        //                value = propertyInfo.GetValue(list[j], null);
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                value = "";
-        //            }
-        //            worksheet.Cells[j + columnIndex + 2, i + 1].Value = value ?? "";
-        //            worksheet.Cells[j + columnIndex + 2, i + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-        //            worksheet.Cells[j + columnIndex + 2, i + 1].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-        //            //worksheet.Cells[j + columnIndex + 2, i + 1].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
-        //        }
-        //        worksheet.Column(i + 1).AutoFit();
-        //    }
-        //    return worksheet;
-        //}
 
         /// <summary>
         /// 导出List<T>为Stream数据

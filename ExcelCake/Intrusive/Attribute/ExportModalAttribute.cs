@@ -7,10 +7,10 @@ using System.Web;
 namespace ExcelCake.Intrusive
 {
     /// <summary>
-    /// 导出模式特性，标注类的导出模式
+    /// 导出特性，标注类的导出信息
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
-    public class ExportModalAttribute:Attribute
+    public class ExportEntityAttribute:Attribute
     {
         /// <summary>
         /// 导出模式，默认为全部
@@ -55,21 +55,21 @@ namespace ExcelCake.Intrusive
             }
         }
 
-        public ExportModalAttribute()
+        public ExportEntityAttribute()
         {
             //exportModal = EnumExportModalType.ALL;
             headColor = Color.FromArgb(192, 192, 192);
             title = "";
         }
 
-        public ExportModalAttribute(string title="")
+        public ExportEntityAttribute(string title="")
         {
             //exportModal = modalType;
             headColor = Color.FromArgb(192, 192, 192);
             this.title = title;
         }
 
-        public ExportModalAttribute(Color headColor,string title="")
+        public ExportEntityAttribute(Color headColor,string title="")
         {
             //exportModal = modalType;
             this.headColor = headColor;

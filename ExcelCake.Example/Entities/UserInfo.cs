@@ -8,25 +8,25 @@ using ExcelCake.Intrusive;
 
 namespace ExcelCake.Example
 {
-    [ExportModal("用户信息")]
+    [ExportEntity("用户信息")]
     public class UserInfo: ExcelBase
     {
-        [DisplayName("编号")]
+        [Export("编号",1)]
         public int ID { set; get; }
 
-        [DisplayName("姓名")]
+        [Export("姓名", 2)]
         public string Name { set; get; }
 
-        [DisplayName("性别")]
+        [Export("性别", 3)]
         public string Sex { set; get; }
 
-        [DisplayName("年龄")]
+        [Export("年龄", 4)]
         public int Age { set; get; }
 
-        [DisplayName("电子邮件")]
+        [Export("电子邮件", 5)]
         public string Email { set; get; }
 
-        [DisplayName("联系方式")]
+        [NoExport]
         public string TelPhone { set; get; }
     }
 }
