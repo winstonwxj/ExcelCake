@@ -11,22 +11,6 @@ using System.Drawing;
 
 namespace ExcelCake.NoIntrusive
 {
-    public class TemplateSetting
-    {
-        public string Type { set; get; }
-        public string DataSource { set; get; }
-        //public string Address { set; get; }
-        public string AddressLeftTop { set; get; }
-        public string AddressRightBottom { set; get; }
-        public string Field { set; get; }
-        public string SettingString { set; get; }
-        public ExcelRangeBase CurrentCell { set; get; }
-        public int FromRow { set; get; }
-        public int FromCol { set; get; }
-        public int ToRow { set; get; }
-        public int ToCol { set; get; }
-    }
-
     /// <summary>
     /// 自定义模板复杂格式导出(待重构)
     /// </summary>
@@ -52,7 +36,7 @@ namespace ExcelCake.NoIntrusive
         /// <param name="workSheet"></param>
         /// <param name="dataSource"></param>
         /// <returns></returns>
-        public ExcelWorksheet FillSheetData(ExcelWorksheet workSheet,DataObject dataSource)
+        public ExcelWorksheet FillSheetData(ExcelWorksheet workSheet,ExcelObject dataSource)
         {
             if (workSheet == null || dataSource == null)
             {
@@ -60,14 +44,11 @@ namespace ExcelCake.NoIntrusive
             }
 
             #region 分析配置
-            List<TemplateSetting> gridSettingList = new List<TemplateSetting>();
-            List<TemplateSetting> freeSettingList = new List<TemplateSetting>();
-            List<TemplateSetting> fieldList = new List<TemplateSetting>();
-            AnalysisSettings(workSheet, out freeSettingList, out gridSettingList, out fieldList);
+            TemplateSettingSheet sheetSetting = new TemplateSettingSheet(workSheet);
             #endregion
 
             #region 填充数据
-            foreach (var item in freeSettingList)
+            foreach (var item in sheetSetting.FreeSettingList)
             {
                 if (string.IsNullOrEmpty(item.AddressLeftTop) || string.IsNullOrEmpty(item.AddressRightBottom))
                 {
@@ -81,7 +62,7 @@ namespace ExcelCake.NoIntrusive
                 }
                 var data = dataSource.DataEntity[item.DataSource];
 
-                foreach(var field in fieldList)
+                foreach(var field in sheetSetting.FieldSettingList)
                 {
                     if (IsCellInRange(item.FromRow,item.FromCol,item.ToRow,item.ToCol,field.CurrentCell))
                     {
@@ -106,7 +87,7 @@ namespace ExcelCake.NoIntrusive
             }
             Dictionary<TemplateSetting, int> regionAddDic = new Dictionary<TemplateSetting, int>();
 
-            foreach (var item in gridSettingList)
+            foreach (var item in sheetSetting.GridSettingList)
             {
                 if (string.IsNullOrEmpty(item.AddressLeftTop) || string.IsNullOrEmpty(item.AddressRightBottom))
                 {
@@ -238,101 +219,6 @@ namespace ExcelCake.NoIntrusive
         }
 
         /// <summary>
-        /// 分析配置
-        /// </summary>
-        /// <param name="sheet"></param>
-        /// <param name="freeSettingList"></param>
-        /// <param name="gridSettingList"></param>
-        /// <param name="fieldSettingList"></param>
-        public void AnalysisSettings(ExcelWorksheet sheet,out List<TemplateSetting> freeSettingList,out List<TemplateSetting> gridSettingList,out List<TemplateSetting> fieldSettingList)
-        {
-            gridSettingList = new List<TemplateSetting>();
-            freeSettingList = new List<TemplateSetting>();
-            fieldSettingList = new List<TemplateSetting>();
-            if (sheet == null || sheet.Cells.Count() <= 0)
-            {
-                return;
-            }
-            foreach (var cell in sheet.Cells)
-            {
-                var cellValue = cell.Value?.ToString() ?? "";
-                var arry = cellValue.Split(new char[2] { '{', '}' }, StringSplitOptions.RemoveEmptyEntries);
-                if (arry.Length == 0)
-                {
-                    continue;
-                }
-                foreach (var item in arry)
-                {
-                    if (item.IndexOf(":") > -1 && item.IndexOf(";") > -1)
-                    {
-                        var settingItemArry = item.Split(new char[1] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-                        if (settingItemArry.Length == 0)
-                        {
-                            continue;
-                        }
-                        var setting = new TemplateSetting();
-                        foreach (var arryItem in settingItemArry)
-                        {
-                            var settingItem = arryItem.Split(':');
-                            if (settingItem.Length < 2)
-                            {
-                                continue;
-                            }
-                            var key = settingItem[0];
-                            var value = settingItem[1];
-                            if (string.IsNullOrEmpty(key))
-                            {
-                                continue;
-                            }
-
-                            switch (key.ToUpper())
-                            {
-                                case "TYPE": { setting.Type = value.ToUpper(); } break;
-                                case "DATASOURCE": { setting.DataSource = value.ToUpper(); } break;
-                                case "ADDRESSLEFTTOP": { setting.AddressLeftTop = value.ToUpper(); } break;
-                                case "ADDRESSRIGHTBOTTOM": { setting.AddressRightBottom = value.ToUpper(); } break;
-                                case "FIELD": { setting.Field = value.ToUpper(); } break;
-                            }
-                        }
-                        setting.CurrentCell = cell;
-                        setting.SettingString = "{" + item + "}";
-                        if (string.IsNullOrEmpty(setting.Type))
-                        {
-                            continue;
-                        }
-                        else if (setting.Type == "GRID")
-                        {
-                            CalcRowCol(setting.AddressLeftTop, out int fromRow, out int fromCol);
-                            CalcRowCol(setting.AddressRightBottom, out int toRow, out int toCol);
-                            setting.FromRow = fromRow;
-                            setting.FromCol = fromCol;
-                            setting.ToRow = toRow;
-                            setting.ToCol = toCol;
-                            gridSettingList.Add(setting);
-                        }
-                        else if (setting.Type == "FREE")
-                        {
-                            CalcRowCol(setting.AddressLeftTop, out int fromRow, out int fromCol);
-                            CalcRowCol(setting.AddressRightBottom, out int toRow, out int toCol);
-                            setting.FromRow = fromRow;
-                            setting.FromCol = fromCol;
-                            setting.ToRow = toRow;
-                            setting.ToCol = toCol;
-                            freeSettingList.Add(setting);
-                        }
-                        else if (setting.Type == "VALUE")
-                        {
-                            fieldSettingList.Add(setting);
-                        }
-
-                    }
-                    var cellValueStr = cell.Value?.ToString() ?? "";
-                    cell.Value = cellValueStr.Replace("{" + item + "}", "");
-                }
-            }
-        }
-
-        /// <summary>
         /// 设置单元格样式
         /// </summary>
         /// <param name="settingCell"></param>
@@ -427,7 +313,7 @@ namespace ExcelCake.NoIntrusive
         /// <param name="list"></param>
         /// <param name="sheetName"></param>
         /// <returns></returns>
-        public byte[] ExportToBytes(DataObject dataSource,string templatePath, string sheetName = "Sheet1")
+        public byte[] ExportToBytes(ExcelObject dataSource,string templatePath, string sheetName = "Sheet1")
         {
             byte[] excelBuffer = null;
             if (!File.Exists(templatePath))
@@ -460,7 +346,7 @@ namespace ExcelCake.NoIntrusive
         /// <returns></returns>
         public byte[] ExportToBytes(object dataSource, string templatePath, string sheetName = "Sheet1")
         {
-            return ExportToBytes(new DataObject(dataSource), templatePath, sheetName);
+            return ExportToBytes(new ExcelObject(dataSource), templatePath, sheetName);
         }
 
         /// <summary>
@@ -471,7 +357,7 @@ namespace ExcelCake.NoIntrusive
         /// <returns></returns>
         public byte[] ExportToBytes(DataSet dataSource,string templatePath,string sheetName = "Sheet1")
         {
-            return ExportToBytes(new DataObject(dataSource), sheetName);
+            return ExportToBytes(new ExcelObject(dataSource), sheetName);
         }
 
         /// <summary>

@@ -8,19 +8,19 @@ using System.Text;
 
 namespace ExcelCake.NoIntrusive
 {
-    public class DataObject
+    public class ExcelObject
     {
         private static Dictionary<Type, Dictionary<string, PropertyInfo>> _PropertyInfo = new Dictionary<Type, Dictionary<string, PropertyInfo>>();
 
         public Dictionary<string, Dictionary<string,object>> DataEntity { get; private set; }
         public Dictionary<string, Dictionary<string, List<object>>> DataList { get; private set; }
 
-        public DataObject(object dataSource)
+        public ExcelObject(object dataSource)
         {
             AnalysisDataSource(dataSource);
         }
 
-        public DataObject(DataSet dataSource)
+        public ExcelObject(DataSet dataSource)
         {
             AnalysisDataSource(dataSource);
         }
