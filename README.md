@@ -22,9 +22,17 @@
 |--ExcelCake.Test            .net core版单元测试
 ```
 
-## 作者相关
+## **作者相关**
 github: https://github.com/winstonwxj
 gitee: https://gitee.com/winstonwxj
+
+## 路线图
+- 基于特性表格导出(已实现)
+- 基于模板表格导出(已实现)
+- 基于特性表格导入
+- 基于模板表格导入
+- 基于特性图表导出
+- 基于模板图表导出
 
 ## 使用
 
