@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OfficeOpenXml;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,11 +38,15 @@ namespace ExcelCake.NoIntrusive
 
         private TemplateSettingSheet()
         {
-
+            
         }
 
         public TemplateSettingSheet(ExcelWorksheet sheet)
         {
+            freeSettingList = new List<TemplateSettingRange>();
+            gridSettingList = new List<TemplateSettingRange>();
+            fieldSettingList = new List<TemplateSettingRange>();
+
             if (sheet == null || sheet.Cells.Count() <= 0)
             {
                 return;
@@ -63,7 +68,7 @@ namespace ExcelCake.NoIntrusive
                         {
                             continue;
                         }
-                        var setting = new TemplateSetting();
+                        var setting = new TemplateSettingRange();
                         foreach (var arryItem in settingItemArry)
                         {
                             var settingItem = arryItem.Split(':');
@@ -95,8 +100,8 @@ namespace ExcelCake.NoIntrusive
                         }
                         else if (setting.Type == "GRID")
                         {
-                            CalcRowCol(setting.AddressLeftTop, out int fromRow, out int fromCol);
-                            CalcRowCol(setting.AddressRightBottom, out int toRow, out int toCol);
+                            ExcelCommon.CalcRowCol(setting.AddressLeftTop, out int fromRow, out int fromCol);
+                            ExcelCommon.CalcRowCol(setting.AddressRightBottom, out int toRow, out int toCol);
                             setting.FromRow = fromRow;
                             setting.FromCol = fromCol;
                             setting.ToRow = toRow;
@@ -105,8 +110,8 @@ namespace ExcelCake.NoIntrusive
                         }
                         else if (setting.Type == "FREE")
                         {
-                            CalcRowCol(setting.AddressLeftTop, out int fromRow, out int fromCol);
-                            CalcRowCol(setting.AddressRightBottom, out int toRow, out int toCol);
+                            ExcelCommon.CalcRowCol(setting.AddressLeftTop, out int fromRow, out int fromCol);
+                            ExcelCommon.CalcRowCol(setting.AddressRightBottom, out int toRow, out int toCol);
                             setting.FromRow = fromRow;
                             setting.FromCol = fromCol;
                             setting.ToRow = toRow;
