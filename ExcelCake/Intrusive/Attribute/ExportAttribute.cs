@@ -43,6 +43,8 @@ namespace ExcelCake.Intrusive
 
         //suffix
 
+        //WrapMode(自动列宽，自动换行)
+
         //列宽
 
         //数据校验

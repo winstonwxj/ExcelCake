@@ -12,8 +12,9 @@ namespace ExcelCake.Example
     {
         static void Main(string[] args)
         {
-            IntrusiveExport();
-            NoIntrusiveExport();
+            //IntrusiveExport();
+            //NoIntrusiveExport();
+            IntrusiveMultiSheetExport();
             Console.ReadKey();
         }
 
@@ -34,6 +35,51 @@ namespace ExcelCake.Example
                 });
             }
             var temp = list.ExportToExcelBytes(); //导出为byte[]
+
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Export");
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            var exportTitle = "导出文件";
+            var filePath = Path.Combine(path, exportTitle + DateTime.Now.Ticks + ".xlsx");
+            FileInfo file = new FileInfo(filePath);
+            File.WriteAllBytes(file.FullName, temp);
+        }
+
+        private static void IntrusiveMultiSheetExport()
+        {
+            Dictionary<string, IEnumerable<ExcelBase>> excelSheets = new Dictionary<string, IEnumerable<ExcelBase>>();
+
+            List<UserInfo> list = new List<UserInfo>();
+            List<AccountInfo> list2 = new List<AccountInfo>();
+            string[] sex = new string[] { "男", "女" };
+
+            Random random = new Random();
+            for (var i = 0; i < 10000; i++)
+            {
+                list.Add(new UserInfo()
+                {
+                    ID = i + 1,
+                    Name = "Test" + (i + 1),
+                    Sex = sex[random.Next(2)],
+                    Age = random.Next(20, 50),
+                    Email = "testafsdgfashgawefqwefasdfwefqwefasdggfaw" + (i + 1) + "@163.com"
+                });
+                list2.Add(new AccountInfo()
+                {
+                    ID = i + 1,
+                    Nickname = "nick" + (i + 1),
+                    Password = random.Next(111111, 999999).ToString(),
+                    OldPassword=random.Next(111111, 999999).ToString(),
+                    AccountStatus = random.Next(2)
+                });
+            }
+            excelSheets.Add("sheet1", list);
+            excelSheets.Add("sheet2", list2);
+
+
+            var temp = excelSheets.ExportMultiToBytes(); //导出为byte[]
 
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Export");
             if (!Directory.Exists(path))

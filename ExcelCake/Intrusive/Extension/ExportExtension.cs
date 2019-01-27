@@ -21,7 +21,7 @@ namespace ExcelCake.Intrusive
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
         /// <returns></returns>
-        public static MemoryStream ExportToExcelStream<T>(this List<T> list, string sheetName = "Sheet1") where T : ExcelBase,new()
+        public static MemoryStream ExportToExcelStream<T>(this IEnumerable<T> list, string sheetName = "Sheet1") where T : ExcelBase,new()
         {
             MemoryStream stream = new MemoryStream();
             Type type = typeof(T);
@@ -44,7 +44,7 @@ namespace ExcelCake.Intrusive
         /// <param name="list"></param>
         /// <param name="sheetName"></param>
         /// <returns></returns>
-        public static byte[] ExportToExcelBytes<T>(this List<T> list, string sheetName = "Sheet1") where T : ExcelBase, new()
+        public static byte[] ExportToExcelBytes<T>(this IEnumerable<T> list, string sheetName = "Sheet1") where T : ExcelBase, new()
         {
             byte[] excelBuffer = null;
             Type type = typeof(T);
@@ -67,7 +67,7 @@ namespace ExcelCake.Intrusive
         /// <param name="list"></param>
         /// <param name="sheetName"></param>
         /// <param name="fileName"></param>
-        public static string ExportToExcelFile<T>(this List<T> list,string cacheDirectory, string sheetName = "Sheet1", string excelName = "") where T : ExcelBase, new()
+        public static string ExportToExcelFile<T>(this IEnumerable<T> list,string cacheDirectory, string sheetName = "Sheet1", string excelName = "") where T : ExcelBase, new()
         {
             var dateTime = DateTime.Now.ToString("yyyyMMddHHmmssfff");
             if (excelName == "")
@@ -101,14 +101,24 @@ namespace ExcelCake.Intrusive
             }
         }
 
-        private static void FillExcelWorksheet<T>(ExcelWorksheet sheet, List<T> list, ExportExcelSetting exportSetting) where T : ExcelBase
+        private static void FillExcelWorksheet<T>(ExcelWorksheet sheet, IEnumerable<T> list, ExportExcelSetting exportSetting) where T : ExcelBase
         {
             if (sheet == null)
             {
                 return;
             }
-            Type type = typeof(T);
-            Color headColor = Color.FromArgb(192, 192, 192);
+            //Type type = typeof(T);
+            Type type = null;
+            var types = list.GetType().GetGenericArguments();
+            if (types != null && types.Length > 0)
+            {
+                type = types.First();
+            }
+            else
+            {
+                type= typeof(T);
+            }
+            Color headColor = Color.White;
 
             int columnIndex = 1;
             if (exportSetting.ExportStyle != null)
@@ -134,6 +144,7 @@ namespace ExcelCake.Intrusive
                 columnIndex++;
             }
 
+            
             //写入数据
             for (var i = 0; i < exportSetting.ExportColumns.Count; i++)
             {
@@ -144,13 +155,15 @@ namespace ExcelCake.Intrusive
                 sheet.Cells[columnIndex, i + 1].Style.Fill.PatternType = ExcelFillStyle.Solid;
                 sheet.Cells[columnIndex, i + 1].Style.Fill.BackgroundColor.SetColor(headColor);
                 sheet.Cells[columnIndex, i + 1].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
-                for (var j = 0; j < list.Count; j++)
+
+                int j = 0;
+                foreach (var item in list)
                 {
                     object value = null;
                     try
                     {
                         PropertyInfo propertyInfo = type.GetProperty(exportSetting.ExportColumns[i].Value);
-                        value = propertyInfo.GetValue(list[j], null);
+                        value = propertyInfo.GetValue(item, null);
                     }
                     catch (Exception ex)
                     {
@@ -160,6 +173,7 @@ namespace ExcelCake.Intrusive
                     sheet.Cells[j + columnIndex + 1, i + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     sheet.Cells[j + columnIndex + 1, i + 1].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                     sheet.Cells[j + columnIndex + 1, i + 1].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+                    j++;
                 }
                 sheet.Column(i + 1).AutoFit();
             }
@@ -171,7 +185,7 @@ namespace ExcelCake.Intrusive
         /// <typeparam name="T"></typeparam>
         /// <param name="dic"></param>
         /// <returns></returns>
-        public static MemoryStream ExportToExcelStream(this Dictionary<string, List<ExcelBase>> dic)
+        public static MemoryStream ExportMultiToStream(this IDictionary<string, IEnumerable<ExcelBase>> dic)
         {
             MemoryStream stream = new MemoryStream();
             
@@ -179,10 +193,16 @@ namespace ExcelCake.Intrusive
             {
                 foreach(var item in dic)
                 {
-                    Type type = item.Value.GetType();
-                    var exportSetting = new ExportExcelSetting(type);
-                    var worksheet = package.Workbook.Worksheets.Add(item.Key);
-                    FillExcelWorksheet<ExcelBase>(worksheet, item.Value, exportSetting);
+                    var types = item.Value.GetType().GetGenericArguments();
+                    if (types != null && types.Length > 0)
+                    {
+                        var exportSetting = new ExportExcelSetting(types.First());
+                        if (exportSetting.ExportColumns.Count > 0)
+                        {
+                            var worksheet = package.Workbook.Worksheets.Add(item.Key);
+                            FillExcelWorksheet<ExcelBase>(worksheet, item.Value, exportSetting);
+                        }
+                    }
                 }
 
                 package.SaveAs(stream);
@@ -197,7 +217,7 @@ namespace ExcelCake.Intrusive
         /// <param name="dic"></param>
         /// <param name="sheetName"></param>
         /// <returns></returns>
-        public static byte[] ExportToExcelBytes<T>(this Dictionary<string, List<ExcelBase>> dic)
+        public static byte[] ExportMultiToBytes(this IDictionary<string, IEnumerable<ExcelBase>> dic)
         {
             byte[] excelBuffer = null;
 
@@ -205,10 +225,16 @@ namespace ExcelCake.Intrusive
             {
                 foreach (var item in dic)
                 {
-                    Type type = item.Value.GetType();
-                    var exportSetting = new ExportExcelSetting(type);
-                    var worksheet = package.Workbook.Worksheets.Add(item.Key);
-                    FillExcelWorksheet<ExcelBase>(worksheet, item.Value, exportSetting);
+                    var types = item.Value.GetType().GetGenericArguments();
+                    if (types != null && types.Length > 0)
+                    {
+                        var exportSetting = new ExportExcelSetting(types.First());
+                        if (exportSetting.ExportColumns.Count > 0)
+                        {
+                            var worksheet = package.Workbook.Worksheets.Add(item.Key);
+                            FillExcelWorksheet<ExcelBase>(worksheet, item.Value, exportSetting);
+                        }
+                    }
                 }
                 excelBuffer = package.GetAsByteArray();
             }
@@ -222,7 +248,7 @@ namespace ExcelCake.Intrusive
         /// <param name="list"></param>
         /// <param name="sheetName"></param>
         /// <param name="fileName"></param>
-        public static string ExportToExcelFile<T>(this Dictionary<string, List<ExcelBase>> dic, string cacheDirectory,string excelName = "")
+        public static string ExportMultiToFile(this IDictionary<string, IEnumerable<ExcelBase>> dic, string cacheDirectory,string excelName = "")
         {
             var dateTime = DateTime.Now.ToString("yyyyMMddHHmmssfff");
             if (excelName == "")
@@ -248,10 +274,16 @@ namespace ExcelCake.Intrusive
             {
                 foreach (var item in dic)
                 {
-                    Type type = item.Value.GetType();
-                    var exportSetting = new ExportExcelSetting(type);
-                    var worksheet = package.Workbook.Worksheets.Add(item.Key);
-                    FillExcelWorksheet<ExcelBase>(worksheet, item.Value, exportSetting);
+                    var types = item.Value.GetType().GetGenericArguments();
+                    if (types != null && types.Length > 0)
+                    {
+                        var exportSetting = new ExportExcelSetting(types.First());
+                        if (exportSetting.ExportColumns.Count > 0)
+                        {
+                            var worksheet = package.Workbook.Worksheets.Add(item.Key);
+                            FillExcelWorksheet<ExcelBase>(worksheet, item.Value, exportSetting);
+                        }
+                    }
                 }
                 package.Save();
                 return downFilePath;

@@ -23,12 +23,14 @@ namespace ExcelCake.Intrusive
             #region 组织表头
             //var modalType = EnumExportModalType.ALL;
             var classAttrArry = type.GetCustomAttributes(typeof(ExportEntityAttribute), true);
-            if (classAttrArry != null && classAttrArry.Length > 0)
+            if (classAttrArry == null || classAttrArry.Length == 0)
             {
-                var exportEntity = (ExportEntityAttribute)classAttrArry[0];
-                ExportStyle.Title = exportEntity.Title;
-                ExportStyle.HeadColor = exportEntity.HeadColor;
+                return;
             }
+
+            var exportEntity = (ExportEntityAttribute)classAttrArry[0];
+            ExportStyle.Title = exportEntity.Title;
+            ExportStyle.HeadColor = exportEntity.HeadColor;
 
             //导出字段
             var properties = type.GetProperties();

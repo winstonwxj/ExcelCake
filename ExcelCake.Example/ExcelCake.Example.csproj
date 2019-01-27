@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\AccountInfo.cs" />
     <Compile Include="Entities\ClassInfo.cs" />
     <Compile Include="Entities\GradeReportInfo.cs" />
     <Compile Include="Entities\UserInfo.cs" />
