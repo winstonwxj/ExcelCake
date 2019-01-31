@@ -11,7 +11,7 @@ namespace ExcelCake.Intrusive
         /// <summary>
         /// 标题背景颜色
         /// </summary>
-        public Color TitleColor;
+        public Color TitleColor { set; get; }
 
         /// <summary>
         /// 标题文本
@@ -21,17 +21,17 @@ namespace ExcelCake.Intrusive
         /// <summary>
         /// 标题文本字号
         /// </summary>
-        public int TitleFontSize;
+        public int TitleFontSize { set; get; }
 
         /// <summary>
         /// 标题是否粗体
         /// </summary>
-        public bool IsTitleBold;
+        public bool IsTitleBold { set; get; }
 
         /// <summary>
         /// 标题合并列数
         /// </summary>
-        public int TitleColumnSpan;
+        public int TitleColumnSpan { set; get; }
 
         /// <summary>
         /// 列头背景颜色
@@ -41,26 +41,26 @@ namespace ExcelCake.Intrusive
         /// <summary>
         /// 列头字号
         /// </summary>
-        public int HeadFontSize;
+        public int HeadFontSize { set; get; }
 
         /// <summary>
         /// 列头是否粗体
         /// </summary>
-        public bool IsHeadBold;
+        public bool IsHeadBold { set; get; }
 
         /// <summary>
         /// 内容背景色
         /// </summary>
-        public Color ContentColor;
+        public Color ContentColor { set; get; }
 
         /// <summary>
         /// 内容字号
         /// </summary>
-        public int ContentFontSize;
+        public int ContentFontSize { set; get; }
 
         /// <summary>
         /// 内容是否粗体
         /// </summary>
-        public bool IsContentBold;
+        public bool IsContentBold { set; get; }
     }
 }

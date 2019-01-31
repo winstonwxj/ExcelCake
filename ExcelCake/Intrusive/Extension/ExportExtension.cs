@@ -15,9 +15,9 @@ namespace ExcelCake.Intrusive
 {
     public static class ExportExtension
     {
-        private static readonly string _dateTimeFormatStr = "yyyyMMddHHmmssfff";
-        private static readonly string _defaultExcelName = "ExportFile";
-        private static readonly string _exportExcelNameTemplate = "{0}-{1}.xlsx";
+        private static readonly string _DateTimeFormatStr = "yyyyMMddHHmmssfff";
+        private static readonly string _DefaultExcelName = "ExportFile";
+        private static readonly string _ExportExcelNameTemplate = "{0}-{1}.xlsx";
 
         /// <summary>
         /// 导出List<T>为Stream数据
@@ -185,17 +185,17 @@ namespace ExcelCake.Intrusive
         /// <param name="fileName"></param>
         public static string ExportMultiToFile(this IDictionary<string, IEnumerable<ExcelBase>> dic, string cacheDirectory,string excelName = "")
         {
-            var dateTime = DateTime.Now.ToString(_dateTimeFormatStr);
+            var dateTime = DateTime.Now.ToString(_DateTimeFormatStr);
             if (excelName == "")
             {
-                excelName = _defaultExcelName;
+                excelName = _DefaultExcelName;
             }
             if (excelName.IndexOf(".") > -1)
             {
                 excelName = excelName.Substring(0, excelName.IndexOf("."));
             }
 
-            var fileName = string.Format(_exportExcelNameTemplate, excelName, dateTime);
+            var fileName = string.Format(_ExportExcelNameTemplate, excelName, dateTime);
             DirectoryInfo dire = new DirectoryInfo(cacheDirectory);
 
             if (!dire.Exists)
@@ -243,41 +243,48 @@ namespace ExcelCake.Intrusive
             }
             Color headColor = Color.White;
 
-            int columnIndex = 1;
+            int titleRowCount = 1;
+            int startRow = 1;
+            int startCol = 1;
+            int endRow = 1;
+            int endCol = 1;
+
             if (exportSetting.ExportStyle != null)
             {
                 var title = exportSetting.ExportStyle.Title;
-                var count = (exportSetting.ExportColumns?.Count) ?? 0;
+                endCol = (exportSetting.ExportColumns?.Count) ?? 1;
                 if (exportSetting.ExportStyle.HeadColor != null)
                 {
                     headColor = exportSetting.ExportStyle.HeadColor;
                 }
-                if (!string.IsNullOrEmpty(title) && count != 0)
+                if (!string.IsNullOrEmpty(title) && endCol != 1)
                 {
-                    sheet.Cells[1, 1, 1, count].Merge = true;
-                    sheet.Cells[1, 1, 1, count].Value = title;
-                    sheet.Cells[1, 1, 1, count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    sheet.Cells[1, 1, 1, count].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                    sheet.Cells[1, 1, 1, count].Style.Font.Bold = true;
-                    sheet.Cells[1, 1, 1, count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                    sheet.Cells[1, 1, 1, count].Style.Fill.BackgroundColor.SetColor(headColor);
-                    sheet.Cells[1, 1, 1, count].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+                    sheet.Cells[startRow, startCol, endRow, endCol].Merge = true;
+                    sheet.Cells[startRow, startCol, endRow, endCol].Value = title;
+                    sheet.Cells[startRow, startCol, endRow, endCol].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    sheet.Cells[startRow, startCol, endRow, endCol].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    sheet.Cells[startRow, startCol, endRow, endCol].Style.Font.Bold = true;
+                    sheet.Cells[startRow, startCol, endRow, endCol].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells[startRow, startCol, endRow, endCol].Style.Fill.BackgroundColor.SetColor(headColor);
+                    sheet.Cells[startRow, startCol, endRow, endCol].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
 
                 }
-                columnIndex++;
+                titleRowCount++;
             }
 
-
             //写入数据
+            int dataStartRow = titleRowCount;
+            int dataStartCol = 1;
+
             for (var i = 0; i < exportSetting.ExportColumns.Count; i++)
             {
-                sheet.Cells[columnIndex, i + 1].Value = exportSetting.ExportColumns[i].Text;
-                sheet.Cells[columnIndex, i + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                sheet.Cells[columnIndex, i + 1].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                sheet.Cells[columnIndex, i + 1].Style.Font.Bold = true;
-                sheet.Cells[columnIndex, i + 1].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                sheet.Cells[columnIndex, i + 1].Style.Fill.BackgroundColor.SetColor(headColor);
-                sheet.Cells[columnIndex, i + 1].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+                sheet.Cells[dataStartRow, i + dataStartCol].Value = exportSetting.ExportColumns[i].Text;
+                sheet.Cells[dataStartRow, i + dataStartCol].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                sheet.Cells[dataStartRow, i + dataStartCol].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                sheet.Cells[dataStartRow, i + dataStartCol].Style.Font.Bold = true;
+                sheet.Cells[dataStartRow, i + dataStartCol].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                sheet.Cells[dataStartRow, i + dataStartCol].Style.Fill.BackgroundColor.SetColor(headColor);
+                sheet.Cells[dataStartRow, i + dataStartCol].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
 
                 int j = 0;
                 foreach (var item in list)
@@ -292,10 +299,10 @@ namespace ExcelCake.Intrusive
                     {
                         value = "";
                     }
-                    sheet.Cells[j + columnIndex + 1, i + 1].Value = value ?? "";
-                    sheet.Cells[j + columnIndex + 1, i + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    sheet.Cells[j + columnIndex + 1, i + 1].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                    sheet.Cells[j + columnIndex + 1, i + 1].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+                    sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Value = value ?? "";
+                    sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
                     j++;
                 }
                 sheet.Column(i + 1).AutoFit();

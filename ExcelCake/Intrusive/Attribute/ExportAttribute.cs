@@ -14,12 +14,12 @@ namespace ExcelCake.Intrusive
         /// <summary>
         /// 导出名称
         /// </summary>
-        private string name;
+        private string _Name;
 
         /// <summary>
         /// 导出排序索引
         /// </summary>
-        private int sortIndex;
+        private int _SortIndex;
 
         /// <summary>
         /// 导出名称
@@ -28,7 +28,7 @@ namespace ExcelCake.Intrusive
         {
             get
             {
-                return name;
+                return _Name;
             }
         }
 
@@ -39,7 +39,7 @@ namespace ExcelCake.Intrusive
         {
             get
             {
-                return sortIndex;
+                return _SortIndex;
             }
         }
 
@@ -62,8 +62,8 @@ namespace ExcelCake.Intrusive
 
         public ExportAttribute(string name,int index=0)
         {
-            this.name = name;
-            sortIndex = index;
+            _Name = name;
+            _SortIndex = index;
         }
     }
 }

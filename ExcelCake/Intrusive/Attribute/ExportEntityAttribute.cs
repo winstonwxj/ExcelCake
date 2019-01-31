@@ -12,27 +12,27 @@ namespace ExcelCake.Intrusive
     [AttributeUsage(AttributeTargets.Class)]
     public class ExportEntityAttribute:Attribute
     {
-        private Color titleColor;
+        private Color _TitleColor;
         
-        private string title;
+        private string _Title;
 
-        private int titleFontSize;
+        private int _TitleFontSize;
 
-        private bool isTitleBold;
+        private bool _IsTitleBold;
 
-        private int titleColumnSpan; 
+        private int _TitleColumnSpan; 
 
-        private Color headColor;
+        private Color _HeadColor;
 
-        private int headFontSize;
+        private int _HeadFontSize;
 
-        private bool isHeadBold;
+        private bool _IsHeadBold;
 
-        private Color contentColor;
+        private Color _ContentColor;
 
-        private int contentFontSize;
+        private int _ContentFontSize;
 
-        private bool isContentBold;
+        private bool _IsContentBold;
 
         //列高
 
@@ -45,7 +45,7 @@ namespace ExcelCake.Intrusive
         {
             get
             {
-                return titleColor;
+                return _TitleColor;
             }
         }
 
@@ -56,7 +56,7 @@ namespace ExcelCake.Intrusive
         {
             get
             {
-                return title;
+                return _Title;
             }
         }
 
@@ -67,7 +67,7 @@ namespace ExcelCake.Intrusive
         {
             get
             {
-                return titleFontSize;
+                return _TitleFontSize;
             }
         }
 
@@ -78,7 +78,7 @@ namespace ExcelCake.Intrusive
         {
             get
             {
-                return isTitleBold;
+                return _IsTitleBold;
             }
         }
 
@@ -89,7 +89,7 @@ namespace ExcelCake.Intrusive
         {
             get
             {
-                return titleColumnSpan;
+                return _TitleColumnSpan;
             }
         }
 
@@ -100,7 +100,7 @@ namespace ExcelCake.Intrusive
         {
             get
             {
-                return headColor;
+                return _HeadColor;
             }
         }
 
@@ -111,7 +111,7 @@ namespace ExcelCake.Intrusive
         {
             get
             {
-                return headFontSize;
+                return _HeadFontSize;
             }
         }
 
@@ -122,7 +122,7 @@ namespace ExcelCake.Intrusive
         {
             get
             {
-                return isHeadBold;
+                return _IsHeadBold;
             }
         }
 
@@ -133,7 +133,7 @@ namespace ExcelCake.Intrusive
         {
             get
             {
-                return contentColor;
+                return _ContentColor;
             }
         }
 
@@ -144,7 +144,7 @@ namespace ExcelCake.Intrusive
         {
             get
             {
-                return contentFontSize;
+                return _ContentFontSize;
             }
         }
 
@@ -155,7 +155,7 @@ namespace ExcelCake.Intrusive
         {
             get
             {
-                return isContentBold;
+                return _IsContentBold;
             }
         }
 
@@ -166,62 +166,62 @@ namespace ExcelCake.Intrusive
 
         public ExportEntityAttribute(string title = "", int titleFontSize = 14, int headFontSize = 12, int contentFontSize = 10, bool isTitleBold = true, bool isHeadBold = true, bool isContentBold = false,int titleColumnSpan=1)
         {
-            this.titleColor = Color.White;
-            this.headColor = Color.White;
-            this.contentColor = Color.White;
-            this.title = title;
-            this.titleFontSize = titleFontSize;
-            this.headFontSize = headFontSize;
-            this.contentFontSize = contentFontSize;
-            this.isTitleBold = isTitleBold;
-            this.isHeadBold = isHeadBold;
-            this.isContentBold = isContentBold;
-            this.titleColumnSpan = titleColumnSpan;
+            this._TitleColor = Color.White;
+            this._HeadColor = Color.White;
+            this._ContentColor = Color.White;
+            this._Title = title;
+            this._TitleFontSize = titleFontSize;
+            this._HeadFontSize = headFontSize;
+            this._ContentFontSize = contentFontSize;
+            this._IsTitleBold = isTitleBold;
+            this._IsHeadBold = isHeadBold;
+            this._IsContentBold = isContentBold;
+            this._TitleColumnSpan = titleColumnSpan;
         }
 
         public ExportEntityAttribute(Color headColor, string title="", int titleFontSize = 14, int headFontSize = 12, int contentFontSize = 10, bool isTitleBold = true, bool isHeadBold = true, bool isContentBold = false, int titleColumnSpan = 1)
         {
-            this.titleColor = Color.White;
-            this.headColor = headColor;
-            this.contentColor = Color.White;
-            this.title = title;
-            this.titleFontSize = titleFontSize;
-            this.headFontSize = headFontSize;
-            this.contentFontSize = contentFontSize;
-            this.isTitleBold = isTitleBold;
-            this.isHeadBold = isHeadBold;
-            this.isContentBold = isContentBold;
-            this.titleColumnSpan = titleColumnSpan;
+            this._TitleColor = Color.White;
+            this._HeadColor = headColor;
+            this._ContentColor = Color.White;
+            this._Title = title;
+            this._TitleFontSize = titleFontSize;
+            this._HeadFontSize = headFontSize;
+            this._ContentFontSize = contentFontSize;
+            this._IsTitleBold = isTitleBold;
+            this._IsHeadBold = isHeadBold;
+            this._IsContentBold = isContentBold;
+            this._TitleColumnSpan = titleColumnSpan;
         }
 
         public ExportEntityAttribute(Color titleColor,Color headColor, string title="", int titleFontSize = 14, int headFontSize = 12, int contentFontSize = 10, bool isTitleBold = true, bool isHeadBold = true, bool isContentBold = false, int titleColumnSpan = 1)
         {
-            this.titleColor = titleColor;
-            this.headColor = headColor;
-            this.contentColor = Color.White;
-            this.title = title;
-            this.titleFontSize = titleFontSize;
-            this.headFontSize = headFontSize;
-            this.contentFontSize = contentFontSize;
-            this.isTitleBold = isTitleBold;
-            this.isHeadBold = isHeadBold;
-            this.isContentBold = isContentBold;
-            this.titleColumnSpan = titleColumnSpan;
+            this._TitleColor = titleColor;
+            this._HeadColor = headColor;
+            this._ContentColor = Color.White;
+            this._Title = title;
+            this._TitleFontSize = titleFontSize;
+            this._HeadFontSize = headFontSize;
+            this._ContentFontSize = contentFontSize;
+            this._IsTitleBold = isTitleBold;
+            this._IsHeadBold = isHeadBold;
+            this._IsContentBold = isContentBold;
+            this._TitleColumnSpan = titleColumnSpan;
         }
 
         public ExportEntityAttribute(Color titleColor, Color headColor,Color contentColor, string title="", int titleFontSize = 14, int headFontSize = 12, int contentFontSize = 10, bool isTitleBold = true, bool isHeadBold = true, bool isContentBold = false, int titleColumnSpan = 1)
         {
-            this.titleColor = titleColor;
-            this.headColor = headColor;
-            this.contentColor = contentColor;
-            this.title = title;
-            this.titleFontSize = titleFontSize;
-            this.headFontSize = headFontSize;
-            this.contentFontSize = contentFontSize;
-            this.isTitleBold = isTitleBold;
-            this.isHeadBold = isHeadBold;
-            this.isContentBold = isContentBold;
-            this.titleColumnSpan = titleColumnSpan;
+            this._TitleColor = titleColor;
+            this._HeadColor = headColor;
+            this._ContentColor = contentColor;
+            this._Title = title;
+            this._TitleFontSize = titleFontSize;
+            this._HeadFontSize = headFontSize;
+            this._ContentFontSize = contentFontSize;
+            this._IsTitleBold = isTitleBold;
+            this._IsHeadBold = isHeadBold;
+            this._IsContentBold = isContentBold;
+            this._TitleColumnSpan = titleColumnSpan;
         }
     }
 }

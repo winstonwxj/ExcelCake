@@ -8,15 +8,15 @@ namespace ExcelCake.NoIntrusive
 {
     internal class TemplateSettingSheet
     {
-        private List<TemplateSettingRange> freeSettingList;
-        private List<TemplateSettingRange> gridSettingList;
-        private List<TemplateSettingRange> fieldSettingList;
+        private List<TemplateSettingRange> _FreeSettingList;
+        private List<TemplateSettingRange> _GridSettingList;
+        private List<TemplateSettingRange> _FieldSettingList;
 
         public List<TemplateSettingRange> FreeSettingList
         {
             get
             {
-                return freeSettingList;
+                return _FreeSettingList;
             }
         }
 
@@ -24,7 +24,7 @@ namespace ExcelCake.NoIntrusive
         {
             get
             {
-                return gridSettingList;
+                return _GridSettingList;
             }
         }
 
@@ -32,7 +32,7 @@ namespace ExcelCake.NoIntrusive
         {
             get
             {
-                return fieldSettingList;
+                return _FieldSettingList;
             }
         }
 
@@ -43,9 +43,9 @@ namespace ExcelCake.NoIntrusive
 
         public TemplateSettingSheet(ExcelWorksheet sheet)
         {
-            freeSettingList = new List<TemplateSettingRange>();
-            gridSettingList = new List<TemplateSettingRange>();
-            fieldSettingList = new List<TemplateSettingRange>();
+            _FreeSettingList = new List<TemplateSettingRange>();
+            _GridSettingList = new List<TemplateSettingRange>();
+            _FieldSettingList = new List<TemplateSettingRange>();
 
             if (sheet == null || sheet.Cells.Count() <= 0)
             {
@@ -106,7 +106,7 @@ namespace ExcelCake.NoIntrusive
                             setting.FromCol = fromCol;
                             setting.ToRow = toRow;
                             setting.ToCol = toCol;
-                            gridSettingList.Add(setting);
+                            _GridSettingList.Add(setting);
                         }
                         else if (setting.Type == "FREE")
                         {
@@ -116,11 +116,11 @@ namespace ExcelCake.NoIntrusive
                             setting.FromCol = fromCol;
                             setting.ToRow = toRow;
                             setting.ToCol = toCol;
-                            freeSettingList.Add(setting);
+                            _FreeSettingList.Add(setting);
                         }
                         else if (setting.Type == "VALUE")
                         {
-                            fieldSettingList.Add(setting);
+                            _FieldSettingList.Add(setting);
                         }
 
                     }
