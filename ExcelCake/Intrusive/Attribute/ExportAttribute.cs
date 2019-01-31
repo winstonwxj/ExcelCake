@@ -21,6 +21,9 @@ namespace ExcelCake.Intrusive
         /// </summary>
         private int sortIndex;
 
+        /// <summary>
+        /// 导出名称
+        /// </summary>
         public string Name
         {
             get
@@ -29,6 +32,9 @@ namespace ExcelCake.Intrusive
             }
         }
 
+        /// <summary>
+        /// 导出排序索引
+        /// </summary>
         public int SortIndex
         {
             get

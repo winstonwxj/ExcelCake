@@ -15,6 +15,10 @@ namespace ExcelCake.Intrusive
 {
     public static class ExportExtension
     {
+        private static readonly string _dateTimeFormatStr = "yyyyMMddHHmmssfff";
+        private static readonly string _defaultExcelName = "ExportFile";
+        private static readonly string _exportExcelNameTemplate = "{0}-{1}.xlsx";
+
         /// <summary>
         /// 导出List<T>为Stream数据
         /// </summary>
@@ -23,18 +27,21 @@ namespace ExcelCake.Intrusive
         /// <returns></returns>
         public static MemoryStream ExportToExcelStream<T>(this IEnumerable<T> list, string sheetName = "Sheet1") where T : ExcelBase,new()
         {
-            MemoryStream stream = new MemoryStream();
-            Type type = typeof(T);
+            //MemoryStream stream = new MemoryStream();
+            //Type type = typeof(T);
 
-            var exportSetting = new ExportExcelSetting(type);
+            //var exportSetting = new ExportExcelSetting(type);
 
-            using (ExcelPackage package = new ExcelPackage())
-            {
-                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add(sheetName);
-                FillExcelWorksheet<T>(worksheet, list, exportSetting);
-                package.SaveAs(stream);
-            }
-            return stream;
+            //using (ExcelPackage package = new ExcelPackage())
+            //{
+            //    ExcelWorksheet worksheet = package.Workbook.Worksheets.Add(sheetName);
+            //    FillExcelWorksheet<T>(worksheet, list, exportSetting);
+            //    package.SaveAs(stream);
+            //}
+            //return stream;
+            var excelDic = new Dictionary<string, IEnumerable<ExcelBase>>();
+            excelDic.Add(sheetName, list as IEnumerable<ExcelBase>);
+            return ExportMultiToStream(excelDic);
         }
 
         /// <summary>
@@ -46,18 +53,21 @@ namespace ExcelCake.Intrusive
         /// <returns></returns>
         public static byte[] ExportToExcelBytes<T>(this IEnumerable<T> list, string sheetName = "Sheet1") where T : ExcelBase, new()
         {
-            byte[] excelBuffer = null;
-            Type type = typeof(T);
+            //byte[] excelBuffer = null;
+            //Type type = typeof(T);
 
-            var exportSetting = new ExportExcelSetting(type);
+            //var exportSetting = new ExportExcelSetting(type);
 
-            using (ExcelPackage package = new ExcelPackage())
-            {
-                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add(sheetName);
-                FillExcelWorksheet<T>(worksheet, list, exportSetting);
-                excelBuffer = package.GetAsByteArray();
-            }
-            return excelBuffer;
+            //using (ExcelPackage package = new ExcelPackage())
+            //{
+            //    ExcelWorksheet worksheet = package.Workbook.Worksheets.Add(sheetName);
+            //    FillExcelWorksheet<T>(worksheet, list, exportSetting);
+            //    excelBuffer = package.GetAsByteArray();
+            //}
+            //return excelBuffer;
+            var excelDic = new Dictionary<string, IEnumerable<ExcelBase>>();
+            excelDic.Add(sheetName, list as IEnumerable<ExcelBase>);
+            return ExportMultiToBytes(excelDic);
         }
 
         /// <summary>
@@ -69,114 +79,39 @@ namespace ExcelCake.Intrusive
         /// <param name="fileName"></param>
         public static string ExportToExcelFile<T>(this IEnumerable<T> list,string cacheDirectory, string sheetName = "Sheet1", string excelName = "") where T : ExcelBase, new()
         {
-            var dateTime = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-            if (excelName == "")
-            {
-                excelName = "ExportFile";
-            }
-            if (excelName.IndexOf(".") > -1)
-            {
-                excelName = excelName.Substring(0, excelName.IndexOf("."));
-            }
+            //var dateTime = DateTime.Now.ToString(_dateTimeFormatStr);
+            //if (excelName == "")
+            //{
+            //    excelName = _defaultExcelName;
+            //}
+            //if (excelName.IndexOf(".") > -1)
+            //{
+            //    excelName = excelName.Substring(0, excelName.IndexOf("."));
+            //}
 
-            var fileName = string.Format("{0}-{1}.xlsx", excelName, dateTime);
-            DirectoryInfo dic = new DirectoryInfo(cacheDirectory);
+            //var fileName = string.Format(_exportExcelNameTemplate, excelName, dateTime);
+            //DirectoryInfo dic = new DirectoryInfo(cacheDirectory);
 
-            if (!dic.Exists)
-            {
-                dic.Create();
-            }
+            //if (!dic.Exists)
+            //{
+            //    dic.Create();
+            //}
 
-            string downFilePath = Path.Combine(cacheDirectory, fileName);
+            //string downFilePath = Path.Combine(cacheDirectory, fileName);
 
-            Type type = typeof(T);
-            var exportSetting = new ExportExcelSetting(type);
-
-            using (ExcelPackage package = new ExcelPackage(new FileInfo(downFilePath)))
-            {
-                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add(sheetName);
-                FillExcelWorksheet<T>(worksheet, list, exportSetting);
-                package.Save();
-                return downFilePath;
-            }
-        }
-
-        private static void FillExcelWorksheet<T>(ExcelWorksheet sheet, IEnumerable<T> list, ExportExcelSetting exportSetting) where T : ExcelBase
-        {
-            if (sheet == null)
-            {
-                return;
-            }
             //Type type = typeof(T);
-            Type type = null;
-            var types = list.GetType().GetGenericArguments();
-            if (types != null && types.Length > 0)
-            {
-                type = types.First();
-            }
-            else
-            {
-                type= typeof(T);
-            }
-            Color headColor = Color.White;
+            //var exportSetting = new ExportExcelSetting(type);
 
-            int columnIndex = 1;
-            if (exportSetting.ExportStyle != null)
-            {
-                var title = exportSetting.ExportStyle.Title;
-                var count = (exportSetting.ExportColumns?.Count)??0;
-                if (exportSetting.ExportStyle.HeadColor != null)
-                {
-                    headColor = exportSetting.ExportStyle.HeadColor;
-                }
-                if (!string.IsNullOrEmpty(title) && count != 0)
-                {
-                    sheet.Cells[1, 1, 1, count].Merge = true;
-                    sheet.Cells[1, 1, 1, count].Value = title;
-                    sheet.Cells[1, 1, 1, count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    sheet.Cells[1, 1, 1, count].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                    sheet.Cells[1, 1, 1, count].Style.Font.Bold = true;
-                    sheet.Cells[1, 1, 1, count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                    sheet.Cells[1, 1, 1, count].Style.Fill.BackgroundColor.SetColor(headColor);
-                    sheet.Cells[1, 1, 1, count].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
-
-                }
-                columnIndex++;
-            }
-
-            
-            //写入数据
-            for (var i = 0; i < exportSetting.ExportColumns.Count; i++)
-            {
-                sheet.Cells[columnIndex, i + 1].Value = exportSetting.ExportColumns[i].Text;
-                sheet.Cells[columnIndex, i + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                sheet.Cells[columnIndex, i + 1].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                sheet.Cells[columnIndex, i + 1].Style.Font.Bold = true;
-                sheet.Cells[columnIndex, i + 1].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                sheet.Cells[columnIndex, i + 1].Style.Fill.BackgroundColor.SetColor(headColor);
-                sheet.Cells[columnIndex, i + 1].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
-
-                int j = 0;
-                foreach (var item in list)
-                {
-                    object value = null;
-                    try
-                    {
-                        PropertyInfo propertyInfo = type.GetProperty(exportSetting.ExportColumns[i].Value);
-                        value = propertyInfo.GetValue(item, null);
-                    }
-                    catch (Exception ex)
-                    {
-                        value = "";
-                    }
-                    sheet.Cells[j + columnIndex + 1, i + 1].Value = value ?? "";
-                    sheet.Cells[j + columnIndex + 1, i + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    sheet.Cells[j + columnIndex + 1, i + 1].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                    sheet.Cells[j + columnIndex + 1, i + 1].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
-                    j++;
-                }
-                sheet.Column(i + 1).AutoFit();
-            }
+            //using (ExcelPackage package = new ExcelPackage(new FileInfo(downFilePath)))
+            //{
+            //    ExcelWorksheet worksheet = package.Workbook.Worksheets.Add(sheetName);
+            //    FillExcelWorksheet<T>(worksheet, list, exportSetting);
+            //    package.Save();
+            //    return downFilePath;
+            //}
+            var excelDic = new Dictionary<string, IEnumerable<ExcelBase>>();
+            excelDic.Add(sheetName, list as IEnumerable<ExcelBase>);
+            return ExportMultiToFile(excelDic,cacheDirectory,excelName);
         }
 
         /// <summary>
@@ -250,17 +185,17 @@ namespace ExcelCake.Intrusive
         /// <param name="fileName"></param>
         public static string ExportMultiToFile(this IDictionary<string, IEnumerable<ExcelBase>> dic, string cacheDirectory,string excelName = "")
         {
-            var dateTime = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+            var dateTime = DateTime.Now.ToString(_dateTimeFormatStr);
             if (excelName == "")
             {
-                excelName = "ExportFile";
+                excelName = _defaultExcelName;
             }
             if (excelName.IndexOf(".") > -1)
             {
                 excelName = excelName.Substring(0, excelName.IndexOf("."));
             }
 
-            var fileName = string.Format("{0}-{1}.xlsx", excelName, dateTime);
+            var fileName = string.Format(_exportExcelNameTemplate, excelName, dateTime);
             DirectoryInfo dire = new DirectoryInfo(cacheDirectory);
 
             if (!dire.Exists)
@@ -287,6 +222,83 @@ namespace ExcelCake.Intrusive
                 }
                 package.Save();
                 return downFilePath;
+            }
+        }
+
+        private static void FillExcelWorksheet<T>(ExcelWorksheet sheet, IEnumerable<T> list, ExportExcelSetting exportSetting) where T : ExcelBase
+        {
+            if (sheet == null)
+            {
+                return;
+            }
+            Type type = null;
+            var types = list.GetType().GetGenericArguments();
+            if (types != null && types.Length > 0)
+            {
+                type = types.First();
+            }
+            else
+            {
+                type = typeof(T);
+            }
+            Color headColor = Color.White;
+
+            int columnIndex = 1;
+            if (exportSetting.ExportStyle != null)
+            {
+                var title = exportSetting.ExportStyle.Title;
+                var count = (exportSetting.ExportColumns?.Count) ?? 0;
+                if (exportSetting.ExportStyle.HeadColor != null)
+                {
+                    headColor = exportSetting.ExportStyle.HeadColor;
+                }
+                if (!string.IsNullOrEmpty(title) && count != 0)
+                {
+                    sheet.Cells[1, 1, 1, count].Merge = true;
+                    sheet.Cells[1, 1, 1, count].Value = title;
+                    sheet.Cells[1, 1, 1, count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    sheet.Cells[1, 1, 1, count].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    sheet.Cells[1, 1, 1, count].Style.Font.Bold = true;
+                    sheet.Cells[1, 1, 1, count].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells[1, 1, 1, count].Style.Fill.BackgroundColor.SetColor(headColor);
+                    sheet.Cells[1, 1, 1, count].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+
+                }
+                columnIndex++;
+            }
+
+
+            //写入数据
+            for (var i = 0; i < exportSetting.ExportColumns.Count; i++)
+            {
+                sheet.Cells[columnIndex, i + 1].Value = exportSetting.ExportColumns[i].Text;
+                sheet.Cells[columnIndex, i + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                sheet.Cells[columnIndex, i + 1].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                sheet.Cells[columnIndex, i + 1].Style.Font.Bold = true;
+                sheet.Cells[columnIndex, i + 1].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                sheet.Cells[columnIndex, i + 1].Style.Fill.BackgroundColor.SetColor(headColor);
+                sheet.Cells[columnIndex, i + 1].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+
+                int j = 0;
+                foreach (var item in list)
+                {
+                    object value = null;
+                    try
+                    {
+                        PropertyInfo propertyInfo = type.GetProperty(exportSetting.ExportColumns[i].Value);
+                        value = propertyInfo.GetValue(item, null);
+                    }
+                    catch (Exception ex)
+                    {
+                        value = "";
+                    }
+                    sheet.Cells[j + columnIndex + 1, i + 1].Value = value ?? "";
+                    sheet.Cells[j + columnIndex + 1, i + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    sheet.Cells[j + columnIndex + 1, i + 1].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    sheet.Cells[j + columnIndex + 1, i + 1].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+                    j++;
+                }
+                sheet.Column(i + 1).AutoFit();
             }
         }
     }

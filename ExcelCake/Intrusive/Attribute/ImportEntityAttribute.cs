@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ExcelCake.Intrusive
 {
-    public class ImportModalAttribute
+    public class ImportEntityAttribute
     {
     }
 }
