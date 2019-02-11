@@ -21,7 +21,7 @@ namespace ExcelCake.Example
         public string Sex { set; get; }
 
         [Export("年龄", 4)]
-        public int Age { set; get; }
+        public int? Age { set; get; }
 
         [Export("电子邮件", 5)]
         public string Email { set; get; }

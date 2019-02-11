@@ -290,15 +290,17 @@ namespace ExcelCake.Intrusive
                 foreach (var item in list)
                 {
                     object value = null;
-                    try
-                    {
-                        PropertyInfo propertyInfo = type.GetProperty(exportSetting.ExportColumns[i].Value);
-                        value = propertyInfo.GetValue(item, null);
-                    }
-                    catch (Exception ex)
-                    {
-                        value = "";
-                    }
+                    PropertyInfo propertyInfo = type.GetProperty(exportSetting.ExportColumns[i].Value);
+                    value = propertyInfo.GetValue(item, null);
+                    //try
+                    //{
+                    //    PropertyInfo propertyInfo = type.GetProperty(exportSetting.ExportColumns[i].Value);
+                    //    value = propertyInfo.GetValue(item, null);
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    value = "";
+                    //}
                     sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Value = value ?? "";
                     sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Style.VerticalAlignment = ExcelVerticalAlignment.Center;

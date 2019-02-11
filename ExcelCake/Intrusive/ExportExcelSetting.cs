@@ -11,6 +11,11 @@ namespace ExcelCake.Intrusive
         public List<ExportColumn> ExportColumns { set; get; }
         public ExportStyle ExportStyle { set; get; }
 
+        private ExportExcelSetting()
+        {
+
+        }
+
         public ExportExcelSetting(Type type)
         {
             ExportStyle = new ExportStyle();
