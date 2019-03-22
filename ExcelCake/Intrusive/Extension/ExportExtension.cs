@@ -271,16 +271,26 @@ namespace ExcelCake.Intrusive
                 {
                     contentColor = exportSetting.ExportStyle.ContentColor;
                 }
+
                 if (!string.IsNullOrEmpty(title) && endCol != 1)
                 {
-                    sheet.Cells[startRow, startCol, endRow, endCol].Merge = true;
-                    sheet.Cells[startRow, startCol, endRow, endCol].Value = title;
-                    sheet.Cells[startRow, startCol, endRow, endCol].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    sheet.Cells[startRow, startCol, endRow, endCol].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                    sheet.Cells[startRow, startCol, endRow, endCol].Style.Font.Bold = true;
-                    sheet.Cells[startRow, startCol, endRow, endCol].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                    sheet.Cells[startRow, startCol, endRow, endCol].Style.Fill.BackgroundColor.SetColor(titleColor);
-                    sheet.Cells[startRow, startCol, endRow, endCol].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+                    int titleEndCol = endCol;
+                    if (exportSetting.ExportStyle.TitleColumnSpan > 0)
+                    {
+                        titleEndCol = exportSetting.ExportStyle.TitleColumnSpan;
+                    }
+                    sheet.Cells[startRow, startCol, endRow, titleEndCol].Merge = true;
+                    sheet.Cells[startRow, startCol, endRow, titleEndCol].Value = title;
+                    sheet.Cells[startRow, startCol, endRow, titleEndCol].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    sheet.Cells[startRow, startCol, endRow, titleEndCol].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    sheet.Cells[startRow, startCol, endRow, titleEndCol].Style.Font.Bold = exportSetting.ExportStyle.IsTitleBold;
+                    if (exportSetting.ExportStyle.TitleFontSize > 0)
+                    {
+                        sheet.Cells[startRow, startCol, endRow, titleEndCol].Style.Font.Size = exportSetting.ExportStyle.TitleFontSize;
+                    }
+                    sheet.Cells[startRow, startCol, endRow, titleEndCol].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells[startRow, startCol, endRow, titleEndCol].Style.Fill.BackgroundColor.SetColor(titleColor);
+                    sheet.Cells[startRow, startCol, endRow, titleEndCol].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
 
                 }
                 titleRowCount++;
@@ -295,7 +305,11 @@ namespace ExcelCake.Intrusive
                 sheet.Cells[dataStartRow, i + dataStartCol].Value = exportSetting.ExportColumns[i].Text;
                 sheet.Cells[dataStartRow, i + dataStartCol].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells[dataStartRow, i + dataStartCol].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                sheet.Cells[dataStartRow, i + dataStartCol].Style.Font.Bold = true;
+                sheet.Cells[dataStartRow, i + dataStartCol].Style.Font.Bold = exportSetting.ExportStyle.IsHeadBold;
+                if (exportSetting.ExportStyle.HeadFontSize > 0)
+                {
+                    sheet.Cells[dataStartRow, i + dataStartCol].Style.Font.Size = exportSetting.ExportStyle.HeadFontSize;
+                }
                 sheet.Cells[dataStartRow, i + dataStartCol].Style.Fill.PatternType = ExcelFillStyle.Solid;
                 sheet.Cells[dataStartRow, i + dataStartCol].Style.Fill.BackgroundColor.SetColor(headColor);
                 sheet.Cells[dataStartRow, i + dataStartCol].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
@@ -318,7 +332,11 @@ namespace ExcelCake.Intrusive
                     sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Value = value ?? "";
                     sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                    sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Style.Font.Bold = true;
+                    sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Style.Font.Bold = exportSetting.ExportStyle.IsContentBold;
+                    if (exportSetting.ExportStyle.ContentFontSize > 0)
+                    {
+                        sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Style.Font.Size = exportSetting.ExportStyle.ContentFontSize;
+                    }
                     sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Style.Fill.PatternType = ExcelFillStyle.Solid;
                     sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Style.Fill.BackgroundColor.SetColor(contentColor);
                     sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
