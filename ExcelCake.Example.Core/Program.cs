@@ -13,6 +13,7 @@ namespace ExcelCake.Example.Core
             IntrusiveExport();
             NoIntrusiveExport();
             //IntrusiveMultiSheetExport();
+            Console.WriteLine("导出完成!");
             Console.ReadKey();
         }
 

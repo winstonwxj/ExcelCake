@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ExcelCake.Intrusive;
+using System.Drawing;
 
 namespace ExcelCake.Example
 {
-    [ExportEntity("用户信息")]
+    [ExportEntity(EnumColor.Blue,EnumColor.Red,EnumColor.Purple,"用户信息")]
     public class UserInfo: ExcelBase
     {
         [Export("编号", 1)]

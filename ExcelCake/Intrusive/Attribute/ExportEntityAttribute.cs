@@ -12,7 +12,7 @@ namespace ExcelCake.Intrusive
     [AttributeUsage(AttributeTargets.Class)]
     public class ExportEntityAttribute:Attribute
     {
-        private Color _TitleColor;
+        private EnumColor _TitleColor;
         
         private string _Title;
 
@@ -22,13 +22,13 @@ namespace ExcelCake.Intrusive
 
         private int _TitleColumnSpan; 
 
-        private Color _HeadColor;
+        private EnumColor _HeadColor;
 
         private int _HeadFontSize;
 
         private bool _IsHeadBold;
 
-        private Color _ContentColor;
+        private EnumColor _ContentColor;
 
         private int _ContentFontSize;
 
@@ -41,7 +41,7 @@ namespace ExcelCake.Intrusive
         /// <summary>
         /// 标题背景颜色
         /// </summary>
-        public Color TitleColor
+        public EnumColor TitleColor
         {
             get
             {
@@ -96,7 +96,7 @@ namespace ExcelCake.Intrusive
         /// <summary>
         /// 列头背景颜色
         /// </summary>
-        public Color HeadColor
+        public EnumColor HeadColor
         {
             get
             {
@@ -129,7 +129,7 @@ namespace ExcelCake.Intrusive
         /// <summary>
         /// 内容背景色
         /// </summary>
-        public Color ContentColor
+        public EnumColor ContentColor
         {
             get
             {
@@ -166,9 +166,9 @@ namespace ExcelCake.Intrusive
 
         public ExportEntityAttribute(string title = "", int titleFontSize = 14, int headFontSize = 12, int contentFontSize = 10, bool isTitleBold = true, bool isHeadBold = true, bool isContentBold = false,int titleColumnSpan=1)
         {
-            this._TitleColor = Color.White;
-            this._HeadColor = Color.White;
-            this._ContentColor = Color.White;
+            this._TitleColor = EnumColor.White;
+            this._HeadColor = EnumColor.White;
+            this._ContentColor = EnumColor.White;
             this._Title = title;
             this._TitleFontSize = titleFontSize;
             this._HeadFontSize = headFontSize;
@@ -179,11 +179,11 @@ namespace ExcelCake.Intrusive
             this._TitleColumnSpan = titleColumnSpan;
         }
 
-        public ExportEntityAttribute(Color headColor, string title="", int titleFontSize = 14, int headFontSize = 12, int contentFontSize = 10, bool isTitleBold = true, bool isHeadBold = true, bool isContentBold = false, int titleColumnSpan = 1)
+        public ExportEntityAttribute(EnumColor headColor, string title="", int titleFontSize = 14, int headFontSize = 12, int contentFontSize = 10, bool isTitleBold = true, bool isHeadBold = true, bool isContentBold = false, int titleColumnSpan = 1)
         {
-            this._TitleColor = Color.White;
+            this._TitleColor = EnumColor.White;
             this._HeadColor = headColor;
-            this._ContentColor = Color.White;
+            this._ContentColor = EnumColor.White;
             this._Title = title;
             this._TitleFontSize = titleFontSize;
             this._HeadFontSize = headFontSize;
@@ -194,11 +194,11 @@ namespace ExcelCake.Intrusive
             this._TitleColumnSpan = titleColumnSpan;
         }
 
-        public ExportEntityAttribute(Color titleColor,Color headColor, string title="", int titleFontSize = 14, int headFontSize = 12, int contentFontSize = 10, bool isTitleBold = true, bool isHeadBold = true, bool isContentBold = false, int titleColumnSpan = 1)
+        public ExportEntityAttribute(EnumColor titleColor, EnumColor headColor, string title="", int titleFontSize = 14, int headFontSize = 12, int contentFontSize = 10, bool isTitleBold = true, bool isHeadBold = true, bool isContentBold = false, int titleColumnSpan = 1)
         {
             this._TitleColor = titleColor;
             this._HeadColor = headColor;
-            this._ContentColor = Color.White;
+            this._ContentColor = EnumColor.White;
             this._Title = title;
             this._TitleFontSize = titleFontSize;
             this._HeadFontSize = headFontSize;
@@ -209,7 +209,7 @@ namespace ExcelCake.Intrusive
             this._TitleColumnSpan = titleColumnSpan;
         }
 
-        public ExportEntityAttribute(Color titleColor, Color headColor,Color contentColor, string title="", int titleFontSize = 14, int headFontSize = 12, int contentFontSize = 10, bool isTitleBold = true, bool isHeadBold = true, bool isContentBold = false, int titleColumnSpan = 1)
+        public ExportEntityAttribute(EnumColor titleColor, EnumColor headColor, EnumColor contentColor, string title="", int titleFontSize = 14, int headFontSize = 12, int contentFontSize = 10, bool isTitleBold = true, bool isHeadBold = true, bool isContentBold = false, int titleColumnSpan = 1)
         {
             this._TitleColor = titleColor;
             this._HeadColor = headColor;

@@ -241,7 +241,10 @@ namespace ExcelCake.Intrusive
             {
                 type = typeof(T);
             }
+            
+            Color titleColor = Color.White;
             Color headColor = Color.White;
+            Color contentColor = Color.White;
 
             int titleRowCount = 1;
             int startRow = 1;
@@ -253,9 +256,20 @@ namespace ExcelCake.Intrusive
             {
                 var title = exportSetting.ExportStyle.Title;
                 endCol = (exportSetting.ExportColumns?.Count) ?? 1;
+
+                if (exportSetting.ExportStyle.TitleColor != null)
+                {
+                    titleColor = exportSetting.ExportStyle.TitleColor;
+                }
+
                 if (exportSetting.ExportStyle.HeadColor != null)
                 {
                     headColor = exportSetting.ExportStyle.HeadColor;
+                }
+                
+                if (exportSetting.ExportStyle.ContentColor != null)
+                {
+                    contentColor = exportSetting.ExportStyle.ContentColor;
                 }
                 if (!string.IsNullOrEmpty(title) && endCol != 1)
                 {
@@ -265,7 +279,7 @@ namespace ExcelCake.Intrusive
                     sheet.Cells[startRow, startCol, endRow, endCol].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                     sheet.Cells[startRow, startCol, endRow, endCol].Style.Font.Bold = true;
                     sheet.Cells[startRow, startCol, endRow, endCol].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                    sheet.Cells[startRow, startCol, endRow, endCol].Style.Fill.BackgroundColor.SetColor(headColor);
+                    sheet.Cells[startRow, startCol, endRow, endCol].Style.Fill.BackgroundColor.SetColor(titleColor);
                     sheet.Cells[startRow, startCol, endRow, endCol].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
 
                 }
@@ -304,6 +318,9 @@ namespace ExcelCake.Intrusive
                     sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Value = value ?? "";
                     sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Style.Font.Bold = true;
+                    sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Style.Fill.BackgroundColor.SetColor(contentColor);
                     sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
                     j++;
                 }

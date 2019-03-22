@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Drawing;
 
 namespace ExcelCake.Intrusive
 {
@@ -34,14 +35,14 @@ namespace ExcelCake.Intrusive
 
             var exportEntity = (ExportEntityAttribute)classAttrArry[0];
             ExportStyle.Title = exportEntity.Title;
-            ExportStyle.HeadColor = exportEntity.HeadColor;
-            ExportStyle.TitleColor = exportEntity.TitleColor;
+            ExportStyle.HeadColor = ColorTranslator.FromHtml(exportEntity.HeadColor.ToString());
+            ExportStyle.TitleColor = ColorTranslator.FromHtml(exportEntity.TitleColor.ToString());
             ExportStyle.TitleFontSize = exportEntity.TitleFontSize;
             ExportStyle.IsTitleBold = exportEntity.IsTitleBold;
             ExportStyle.TitleColumnSpan = exportEntity.TitleColumnSpan;
             ExportStyle.HeadFontSize = exportEntity.HeadFontSize;
             ExportStyle.IsHeadBold = exportEntity.IsHeadBold;
-            ExportStyle.ContentColor = exportEntity.ContentColor;
+            ExportStyle.ContentColor = ColorTranslator.FromHtml(exportEntity.ContentColor.ToString());
             ExportStyle.ContentFontSize = exportEntity.ContentFontSize;
             ExportStyle.IsContentBold = exportEntity.IsContentBold;
             var properties = type.GetProperties();
