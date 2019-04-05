@@ -179,7 +179,7 @@ namespace ExcelCake.Intrusive
             this._TitleColumnSpan = titleColumnSpan;
         }
 
-        public ExportEntityAttribute(EnumColor headColor, string title="", int titleFontSize = 14, int headFontSize = 12, int contentFontSize = 10, bool isTitleBold = true, bool isHeadBold = true, bool isContentBold = false, int titleColumnSpan = 1)
+        public ExportEntityAttribute(EnumColor headColor, string title="", int titleFontSize = 14, int headFontSize = 12, int contentFontSize = 10, bool isTitleBold = true, bool isHeadBold = true, bool isContentBold = false, int titleColumnSpan = 0)
         {
             this._TitleColor = EnumColor.White;
             this._HeadColor = headColor;
@@ -194,7 +194,7 @@ namespace ExcelCake.Intrusive
             this._TitleColumnSpan = titleColumnSpan;
         }
 
-        public ExportEntityAttribute(EnumColor titleColor, EnumColor headColor, string title="", int titleFontSize = 14, int headFontSize = 12, int contentFontSize = 10, bool isTitleBold = true, bool isHeadBold = true, bool isContentBold = false, int titleColumnSpan = 1)
+        public ExportEntityAttribute(EnumColor titleColor, EnumColor headColor, string title="", int titleFontSize = 14, int headFontSize = 12, int contentFontSize = 10, bool isTitleBold = true, bool isHeadBold = true, bool isContentBold = false, int titleColumnSpan = 0)
         {
             this._TitleColor = titleColor;
             this._HeadColor = headColor;
@@ -209,7 +209,7 @@ namespace ExcelCake.Intrusive
             this._TitleColumnSpan = titleColumnSpan;
         }
 
-        public ExportEntityAttribute(EnumColor titleColor, EnumColor headColor, EnumColor contentColor, string title="", int titleFontSize = 14, int headFontSize = 12, int contentFontSize = 10, bool isTitleBold = true, bool isHeadBold = true, bool isContentBold = false, int titleColumnSpan = 1)
+        public ExportEntityAttribute(EnumColor titleColor, EnumColor headColor, EnumColor contentColor, string title="", int titleFontSize = 14, int headFontSize = 12, int contentFontSize = 10, bool isTitleBold = true, bool isHeadBold = true, bool isContentBold = false, int titleColumnSpan = 0)
         {
             this._TitleColor = titleColor;
             this._HeadColor = headColor;
