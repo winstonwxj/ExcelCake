@@ -164,7 +164,7 @@ namespace ExcelCake.Intrusive
 
         }
 
-        public ExportEntityAttribute(string title = "", int titleFontSize = 14, int headFontSize = 12, int contentFontSize = 10, bool isTitleBold = true, bool isHeadBold = true, bool isContentBold = false,int titleColumnSpan=1)
+        public ExportEntityAttribute(string title = "", int titleFontSize = 14, int headFontSize = 12, int contentFontSize = 10, bool isTitleBold = true, bool isHeadBold = true, bool isContentBold = false,int titleColumnSpan=0)
         {
             this._TitleColor = EnumColor.White;
             this._HeadColor = EnumColor.White;
