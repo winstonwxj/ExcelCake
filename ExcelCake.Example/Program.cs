@@ -12,9 +12,9 @@ namespace ExcelCake.Example
     {
         static void Main(string[] args)
         {
-            //IntrusiveExport();
+            IntrusiveExport();
+            IntrusiveMultiSheetExport();
             //NoIntrusiveExport();
-            //IntrusiveMultiSheetExport();
             IntrusiveImport();
             Console.ReadKey();
         }

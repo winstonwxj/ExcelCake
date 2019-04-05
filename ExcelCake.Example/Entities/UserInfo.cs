@@ -9,7 +9,7 @@ using System.Drawing;
 
 namespace ExcelCake.Example
 {
-    [ExportEntity(EnumColor.Brown,"用户信息")]
+    [ExportEntity(EnumColor.LightGray, "用户信息")]
     [ImportEntity(titleRowIndex:1,headRowIndex:2,dataRowIndex:3)]
     public class UserInfo: ExcelBase
     {

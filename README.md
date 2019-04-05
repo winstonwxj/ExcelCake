@@ -45,7 +45,7 @@ gitee: https://gitee.com/winstonwxj
 #### 基于特性实体类定义
 
 ```C#
-    [ExportEntity(EnumColor.Brown,"用户信息")]
+    [ExportEntity(EnumColor.LightGray,"用户信息")]
     [ImportEntity(titleRowIndex:1,headRowIndex:2,dataRowIndex:3)]
     public class UserInfo: ExcelBase
     {
