@@ -11,14 +11,7 @@ namespace ExcelCake.Intrusive
     [AttributeUsage(AttributeTargets.Property)]
     public class ExportAttribute:Attribute
     {
-        /// <summary>
-        /// 导出名称
-        /// </summary>
         private string _Name;
-
-        /// <summary>
-        /// 导出排序索引
-        /// </summary>
         private int _SortIndex;
 
         /// <summary>

@@ -49,8 +49,8 @@ namespace ExcelCake.Intrusive
 
             foreach (var proper in properties)
             {
-                var noexportAttrArry = proper.GetCustomAttributes(typeof(NoExportAttribute), true);
-                if (noexportAttrArry == null || noexportAttrArry.Length == 0)
+                var exportAttrArry = proper.GetCustomAttributes(typeof(ExportAttribute), true);
+                if (exportAttrArry != null && exportAttrArry.Length > 0)
                 {
                     var column = new ExportColumn(proper);
                     if (column != null)

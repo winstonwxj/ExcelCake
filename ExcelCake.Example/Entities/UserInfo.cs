@@ -26,7 +26,6 @@ namespace ExcelCake.Example
         [Export("电子邮件", 5)]
         public string Email { set; get; }
 
-        [NoExport]
         public string TelPhone { set; get; }
     }
 }

@@ -13,7 +13,8 @@ namespace ExcelCake.Example.Core
             IntrusiveExport();
             NoIntrusiveExport();
             //IntrusiveMultiSheetExport();
-            Console.WriteLine("导出完成!");
+            IntrusiveImport();
+            
             Console.ReadKey();
         }
 
@@ -44,6 +45,7 @@ namespace ExcelCake.Example.Core
             var filePath = Path.Combine(path, exportTitle + DateTime.Now.Ticks + ".xlsx");
             FileInfo file = new FileInfo(filePath);
             File.WriteAllBytes(file.FullName, temp);
+            Console.WriteLine("IntrusiveExport导出完成!");
         }
 
         private static void IntrusiveMultiSheetExport()
@@ -89,6 +91,7 @@ namespace ExcelCake.Example.Core
             var filePath = Path.Combine(path, exportTitle + DateTime.Now.Ticks + ".xlsx");
             FileInfo file = new FileInfo(filePath);
             File.WriteAllBytes(file.FullName, temp);
+            Console.WriteLine("IntrusiveMultiSheetExport导出完成!");
         }
 
         private static void NoIntrusiveExport()
@@ -227,6 +230,13 @@ namespace ExcelCake.Example.Core
             var filePath = Path.Combine(path, exportTitle + DateTime.Now.Ticks + ".xlsx");
             FileInfo file = new FileInfo(filePath);
             File.WriteAllBytes(file.FullName, byteInfo);
+            Console.WriteLine("NoIntrusiveExport导出完成!");
+        }
+
+        private static void IntrusiveImport()
+        {
+            var list = ExcelHelper.GetList<UserInfo>(@"C:\Users\winstonwxj\Desktop\导入文件测试.xlsx");
+            Console.WriteLine("导入完成!");
         }
     }
 }

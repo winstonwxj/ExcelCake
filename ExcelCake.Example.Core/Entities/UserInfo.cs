@@ -10,7 +10,7 @@ using System.Drawing;
 namespace ExcelCake.Example
 {
     [ExportEntity(EnumColor.Brown,"用户信息")]
-    [ImportEntity(3)]
+    [ImportEntity(titleRowIndex:1,headRowIndex:2,dataRowIndex:3)]
     public class UserInfo: ExcelBase
     {
         [Export("编号", 1)]
@@ -33,7 +33,6 @@ namespace ExcelCake.Example
         [Import("电子邮件")]
         public string Email { set; get; }
 
-        [NoExport]
         public string TelPhone { set; get; }
     }
 }

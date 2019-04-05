@@ -15,6 +15,7 @@
   <ItemGroup>
     <Compile Remove="Intrusive\Attribute\ExportMergeHeadAttribute.cs" />
     <Compile Remove="Intrusive\Attribute\ExportSortAttribute.cs" />
+    <Compile Remove="Intrusive\Attribute\NoExportAttribute.cs" />
     <Compile Remove="Intrusive\Enum\EnumExportModalType.cs" />
   </ItemGroup>
   

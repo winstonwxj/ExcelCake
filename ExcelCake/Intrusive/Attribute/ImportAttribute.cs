@@ -11,13 +11,12 @@ namespace ExcelCake.Intrusive
     [AttributeUsage(AttributeTargets.Property)]
     public class ImportAttribute: Attribute
     {
-        /// <summary>
-        /// 导入名称
-        /// </summary>
         private string _Name;
+        private bool _IsConvert;
+        private string _TempField;
 
         /// <summary>
-        /// 导出名称
+        /// 导入名称
         /// </summary>
         public string Name
         {
@@ -27,14 +26,52 @@ namespace ExcelCake.Intrusive
             }
         }
 
+        /// <summary>
+        /// 是否需要转换
+        /// </summary>
+        public bool IsConvert
+        {
+            get
+            {
+                return _IsConvert;
+            }
+            set
+            {
+                _IsConvert = value;
+            }
+        }
+
+        /// <summary>
+        /// 临时字段
+        /// </summary>
+        public string TempField
+        {
+            get
+            {
+                return _TempField;
+            }
+            set
+            {
+                _TempField = value;
+            }
+        }
+
         private ImportAttribute()
         {
-
+            _IsConvert = false;
         }
 
         public ImportAttribute(string name)
         {
             _Name = name;
+            _IsConvert = false;
+        }
+
+        public ImportAttribute(string name,bool isConvert,string tempField)
+        {
+            _Name = name;
+            _IsConvert = isConvert;
+            _TempField = tempField;
         }
     }
 }
