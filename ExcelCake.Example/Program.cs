@@ -14,8 +14,8 @@ namespace ExcelCake.Example
         {
             //IntrusiveExport();
             //NoIntrusiveExport();
-            IntrusiveMultiSheetExport();
-            
+            //IntrusiveMultiSheetExport();
+            IntrusiveImport();
             Console.ReadKey();
         }
 
@@ -232,6 +232,16 @@ namespace ExcelCake.Example
             FileInfo file = new FileInfo(filePath);
             File.WriteAllBytes(file.FullName, byteInfo);
             Console.WriteLine("NoIntrusiveExport导出完成!");
+        }
+
+        private static void IntrusiveImport()
+        {
+            var list = ExcelHelper.GetList<UserInfo>(@"C:\Users\winstonwxj\Desktop\导入文件测试.xlsx");
+            foreach (var item in list)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine("导入完成!");
         }
     }
 }
