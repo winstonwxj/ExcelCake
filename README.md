@@ -179,7 +179,8 @@ gitee: https://gitee.com/winstonwxj
         Console.WriteLine("IntrusiveMultiSheetExport导出完成!");
     }
 ```
-![avatar](./pics/pic2.PNG)
+![avatar](./pics/pic3.PNG)
+![avatar](./pics/pic4.PNG)
 
 #### 基于特性导入
 ```C#
@@ -339,7 +340,6 @@ gitee: https://gitee.com/winstonwxj
         Console.WriteLine("NoIntrusiveExport导出完成!");
     }
 ```
-![avatar](./pics/pic3.PNG)
-![avatar](./pics/pic4.PNG)
+![avatar](./pics/pic2.PNG)
 
 ## 文档

@@ -10,8 +10,8 @@ namespace ExcelCake.Example.Core
     {
         static void Main(string[] args)
         {
-            IntrusiveExport();
-            NoIntrusiveExport();
+            //IntrusiveExport();
+            //NoIntrusiveExport();
             //IntrusiveMultiSheetExport();
             IntrusiveImport();
             
@@ -57,7 +57,7 @@ namespace ExcelCake.Example.Core
             string[] sex = new string[] { "男", "女" };
 
             Random random = new Random();
-            for (var i = 0; i < 10000; i++)
+            for (var i = 0; i < 100; i++)
             {
                 list.Add(new UserInfo()
                 {
@@ -236,6 +236,10 @@ namespace ExcelCake.Example.Core
         private static void IntrusiveImport()
         {
             var list = ExcelHelper.GetList<UserInfo>(@"C:\Users\winstonwxj\Desktop\导入文件测试.xlsx");
+            foreach(var item in list)
+            {
+                Console.WriteLine(item);
+            }
             Console.WriteLine("导入完成!");
         }
     }

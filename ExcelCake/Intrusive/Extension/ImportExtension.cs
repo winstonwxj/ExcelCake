@@ -185,6 +185,8 @@ namespace ExcelCake.Intrusive
                     }
                     #endregion
                 }
+
+                list.Add(entity);
             }
 
             if (errorMessages.Count > 0)

@@ -34,5 +34,10 @@ namespace ExcelCake.Example
         public string Email { set; get; }
 
         public string TelPhone { set; get; }
+
+        public override string ToString()
+        {
+            return string.Format($"ID:{ID},Name:{Name},Sex:{Sex},Age:{Age},Email:{Email},TelPhone:{TelPhone}");
+        }
     }
 }
