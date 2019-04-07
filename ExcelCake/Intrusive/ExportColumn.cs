@@ -13,6 +13,7 @@ namespace ExcelCake.Intrusive
         public int Index { set; get; }
         public string Prefix { set; get; }
         public string Suffix { set; get; }
+        public string MergeText { set; get; }
 
         public ExportColumn()
         {
@@ -39,6 +40,11 @@ namespace ExcelCake.Intrusive
                 Index = export.SortIndex;
                 Prefix = export.Prefix;
                 Suffix = export.Suffix;
+                var mergeAttrArry = property.GetCustomAttributes(typeof(ExportMergeAttribute), true);
+                if (mergeAttrArry != null && mergeAttrArry.Length > 0)
+                {
+                    MergeText = ((ExportMergeAttribute)mergeAttrArry[0]).MergeText;
+                }
             }
         }
     }

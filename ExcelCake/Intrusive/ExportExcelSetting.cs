@@ -11,6 +11,7 @@ namespace ExcelCake.Intrusive
     {
         public List<ExportColumn> ExportColumns { set; get; }
         public ExportStyle ExportStyle { set; get; }
+        public List<KeyValuePair<string,int>> MergeList { set; get; }
 
         private ExportExcelSetting()
         {
@@ -21,6 +22,7 @@ namespace ExcelCake.Intrusive
         {
             ExportStyle = new ExportStyle();
             ExportColumns = new List<ExportColumn>();
+            MergeList = new List<KeyValuePair<string, int>>();
             if (type == null)
             {
                 return;
@@ -62,7 +64,24 @@ namespace ExcelCake.Intrusive
             #endregion
 
             #region 排序
-            ExportColumns.Sort((a, b) => a.Index.CompareTo(b.Index));
+            //ExportColumns.Sort((a, b) => a.Index.CompareTo(b.Index));
+            var groupTemp = ExportColumns.GroupBy(o => o.MergeText);
+            ExportColumns = new List<ExportColumn>();
+            foreach(var item in groupTemp)
+            {
+                var mergeList = item.ToList();
+                if (mergeList.Count == 1)
+                {
+                    mergeList.First().MergeText = "";
+                }
+                else
+                {
+                    mergeList.Sort((a, b) => a.Index.CompareTo(b.Index));
+                    MergeList.Add(new KeyValuePair<string, int>(item.Key, item.Count()));
+                }
+                
+                ExportColumns.AddRange(mergeList);
+            }
             #endregion
         }
     }

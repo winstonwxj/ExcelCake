@@ -297,11 +297,32 @@ namespace ExcelCake.Intrusive
             }
 
             //写入数据
-            int dataStartRow = titleRowCount;
+            int mergeRowCount = 0;
+            if(exportSetting.ExportColumns.GroupBy(o => o.MergeText).Any(o => o.Count() > 1))
+            {
+                mergeRowCount = 1;
+            }
+            int dataStartRow = titleRowCount+ mergeRowCount;
             int dataStartCol = 1;
 
             for (var i = 0; i < exportSetting.ExportColumns.Count; i++)
             {
+                if (mergeRowCount >= 1&&string.IsNullOrEmpty(exportSetting.ExportColumns[i].MergeText))
+                {
+                    sheet.Cells[dataStartRow, i + dataStartCol, dataStartRow + 1, i + dataStartCol].Merge = true;
+                }
+                else if(mergeRowCount >= 1 && !string.IsNullOrEmpty(exportSetting.ExportColumns[i].MergeText))
+                {
+                    var mergeList = exportSetting.MergeList.Where(o => o.Key == exportSetting.ExportColumns[i].MergeText)?.ToList();
+
+                    if (mergeList != null && mergeList.Count > 0)
+                    {
+                        sheet.Cells[dataStartRow - mergeRowCount, i + dataStartCol, dataStartRow - mergeRowCount, i + dataStartCol + mergeList.First().Value].Merge = true;
+                        sheet.Cells[dataStartRow - mergeRowCount, i + dataStartCol].Value = exportSetting.ExportColumns[i].MergeText;
+                        exportSetting.MergeList.Remove(mergeList.First());
+                    }
+                }
+
                 sheet.Cells[dataStartRow, i + dataStartCol].Value = exportSetting.ExportColumns[i].Text;
                 sheet.Cells[dataStartRow, i + dataStartCol].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells[dataStartRow, i + dataStartCol].Style.VerticalAlignment = ExcelVerticalAlignment.Center;

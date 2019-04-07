@@ -74,8 +74,6 @@ namespace ExcelCake.Intrusive
 
         //列宽
 
-        //数据校验
-
         private ExportAttribute(string prefix="",string suffix="")
         {
             _Prefix = prefix ?? "";
