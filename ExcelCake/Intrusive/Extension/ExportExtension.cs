@@ -320,6 +320,10 @@ namespace ExcelCake.Intrusive
                     object value = null;
                     PropertyInfo propertyInfo = type.GetProperty(exportSetting.ExportColumns[i].Value);
                     value = propertyInfo.GetValue(item, null);
+                    if(value!=null&&value is string)
+                    {
+                        value = ((string)value).TrimStart(exportSetting.ExportColumns[i].Prefix.ToArray()).TrimEnd(exportSetting.ExportColumns[i].Suffix.ToArray());
+                    }
                     //try
                     //{
                     //    PropertyInfo propertyInfo = type.GetProperty(exportSetting.ExportColumns[i].Value);
@@ -329,7 +333,7 @@ namespace ExcelCake.Intrusive
                     //{
                     //    value = "";
                     //}
-                    sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Value = value ?? "";
+                    sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Value = value??"";
                     sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                     sheet.Cells[j + dataStartRow + 1, i + dataStartCol].Style.Font.Bold = exportSetting.ExportStyle.IsContentBold;

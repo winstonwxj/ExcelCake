@@ -11,13 +11,17 @@ namespace ExcelCake.Intrusive
         public string Text { set; get; }
         public string Name { set; get; }
         public int ColumnIndex { set; get; }
-        public bool IsConvert { set; get; }
+        public bool IsUseTempField { set; get; }
         public string TempField { set; get; }
-        
+        public string Prefix { set; get; }
+        public string Suffix { set; get; }
+        public string DataVerReg { set; get; }
+        public bool IsRegFailThrowException { set; get; }
+
 
         public ImportColumn()
         {
-            IsConvert = false;
+            IsUseTempField = false;
         }
 
         public ImportColumn(PropertyInfo property)
@@ -32,8 +36,12 @@ namespace ExcelCake.Intrusive
                 var import = ((ImportAttribute)importAttrArry[0]);
                 Name = property.Name;
                 Text = import.Name;
-                IsConvert = import.IsConvert;
+                IsUseTempField = import.IsUseTempField;
                 TempField = import.TempField;
+                Prefix = import.Prefix;
+                Suffix = import.Suffix;
+                DataVerReg = import.DataVerReg;
+                IsRegFailThrowException = import.IsRegFailThrowException;
             }
         }
     }

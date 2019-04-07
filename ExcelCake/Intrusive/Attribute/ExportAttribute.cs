@@ -13,6 +13,8 @@ namespace ExcelCake.Intrusive
     {
         private string _Name;
         private int _SortIndex;
+        private string _Prefix;
+        private string _Suffix;
 
         /// <summary>
         /// 导出名称
@@ -36,11 +38,37 @@ namespace ExcelCake.Intrusive
             }
         }
 
+        /// <summary>
+        /// 前缀
+        /// </summary>
+        public string Prefix
+        {
+            get
+            {
+                return _Prefix;
+            }
+            set
+            {
+                _Prefix = value;
+            }
+        }
+
+        /// <summary>
+        /// 后缀
+        /// </summary>
+        public string Suffix
+        {
+            get
+            {
+                return _Suffix;
+            }
+            set
+            {
+                _Suffix = value;
+            }
+        }
+
         //合并相同列(list中)
-
-        //prefix
-
-        //suffix
 
         //WrapMode(自动列宽，自动换行)
 
@@ -48,15 +76,18 @@ namespace ExcelCake.Intrusive
 
         //数据校验
 
-        private ExportAttribute()
+        private ExportAttribute(string prefix="",string suffix="")
         {
-
+            _Prefix = prefix ?? "";
+            _Suffix = suffix ?? "";
         }
 
-        public ExportAttribute(string name,int index=0)
+        public ExportAttribute(string name,int index=0, string prefix = "", string suffix = "")
         {
-            _Name = name;
+            _Name = name ?? "" ;
             _SortIndex = index;
+            _Prefix = prefix ?? "";
+            _Suffix = suffix ?? "";
         }
     }
 }

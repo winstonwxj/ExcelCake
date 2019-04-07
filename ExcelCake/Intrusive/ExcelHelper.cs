@@ -124,7 +124,12 @@ namespace ExcelCake.Intrusive
                         var value = sheet.Cells[n, item.ColumnIndex].Value;
                         if (value != null && value.ToString() != "")
                         {
-                            if (item.IsConvert)
+                            if(value is string)
+                            {
+                                value = ((string)value).TrimStart(item.Prefix.ToArray()).TrimEnd(item.Suffix.ToArray());
+                            }
+
+                            if (item.IsUseTempField)
                             {
                                 var tempProperty = entityType.GetProperty(item.TempField);
                                 if (tempProperty != null)
@@ -140,6 +145,15 @@ namespace ExcelCake.Intrusive
                                     }
                                 }
                                 continue;
+                            }
+
+                            if (!string.IsNullOrEmpty(item.DataVerReg))
+                            {
+                                var isMatch = Regex.IsMatch((string)value, item.DataVerReg);
+                                if (!isMatch && item.IsRegFailThrowException)
+                                {
+                                    throw new ImportFormatException();
+                                }
                             }
 
                             if (property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
@@ -158,9 +172,13 @@ namespace ExcelCake.Intrusive
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (ImportFormatException ex)
                     {
                         errorMessages.Add(string.Format("Excel{0}sheet:{1}第{2}行第{3}列【{4}】的值【{5}】不合法", entity.ExcelName, entity.SheetName, n, item.ColumnIndex, item.Text, sheet.Cells[n, item.ColumnIndex].Value));
+                    }
+                    catch (Exception ex)
+                    {
+                        errorMessages.Add(string.Format("Excel{0}sheet:{1}第{2}行第{3}列【{4}】的值【{5}】转换异常", entity.ExcelName, entity.SheetName, n, item.ColumnIndex, item.Text, sheet.Cells[n, item.ColumnIndex].Value));
                     }
                     #endregion
                 }

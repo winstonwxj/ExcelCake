@@ -11,6 +11,8 @@ namespace ExcelCake.Intrusive
         public string Text { set; get; }
         public string Value { set; get; }
         public int Index { set; get; }
+        public string Prefix { set; get; }
+        public string Suffix { set; get; }
 
         public ExportColumn()
         {
@@ -35,6 +37,8 @@ namespace ExcelCake.Intrusive
                 Text = displayName;
                 Value = property.Name;
                 Index = export.SortIndex;
+                Prefix = export.Prefix;
+                Suffix = export.Suffix;
             }
         }
     }

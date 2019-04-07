@@ -14,7 +14,7 @@ namespace ExcelCake.Example
     public class UserInfo: ExcelBase
     {
         [Export("编号", 1)]
-        [Import("编号")]
+        [Import(name:"编号",prefix:"ID:")]
         public int ID { set; get; }
 
         [Export("姓名", 2)]
