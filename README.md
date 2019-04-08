@@ -43,7 +43,7 @@ gitee: https://gitee.com/winstonwxj
 ## 示例
 
 ### 基于特性部分
-#### 基于特性实体类定义
+#### 实体类定义
 
 ```C#
     [ExportEntity(EnumColor.LightGray,"用户信息")]
@@ -189,7 +189,7 @@ gitee: https://gitee.com/winstonwxj
 ![avatar](./pics/pic3.PNG)
 ![avatar](./pics/pic4.PNG)
 
-#### 导入Excel文件
+#### 导入Excel文件结构
 ![avatar](./pics/pic7.PNG)
 
 #### 基于特性导入
