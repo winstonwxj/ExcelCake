@@ -42,6 +42,7 @@ gitee: https://gitee.com/winstonwxj
 
 ## 示例
 
+### 基于特性部分
 #### 基于特性实体类定义
 
 ```C#
@@ -188,7 +189,7 @@ gitee: https://gitee.com/winstonwxj
 ![avatar](./pics/pic3.PNG)
 ![avatar](./pics/pic4.PNG)
 
-#### 基于特性导入Excel文件
+#### 导入Excel文件
 ![avatar](./pics/pic7.PNG)
 
 #### 基于特性导入
@@ -205,6 +206,7 @@ gitee: https://gitee.com/winstonwxj
 ```
 ![avatar](./pics/pic5.PNG)
 
+### 基于模板部分
 #### 模板绘制
 ![avatar](./pics/pic6.PNG)
 
