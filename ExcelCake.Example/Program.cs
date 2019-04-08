@@ -12,10 +12,11 @@ namespace ExcelCake.Example
     {
         static void Main(string[] args)
         {
-            IntrusiveExport();
-            IntrusiveMultiSheetExport();
+            //IntrusiveExport();
+            //IntrusiveMultiSheetExport();
             //NoIntrusiveExport();
             IntrusiveImport();
+
             Console.ReadKey();
         }
 
@@ -32,7 +33,8 @@ namespace ExcelCake.Example
                     Name = "Test" + (i + 1),
                     Sex = sex[random.Next(2)],
                     Age = random.Next(20, 50),
-                    Email = "test" + (i + 1) + "@163.com"
+                    Email = "test" + (i + 1) + "@163.com",
+                    TelPhone = "1399291" + random.Next(1000, 9999)
                 });
             }
             var temp = list.ExportToExcelBytes(); //导出为byte[]
@@ -58,7 +60,7 @@ namespace ExcelCake.Example
             string[] sex = new string[] { "男", "女" };
 
             Random random = new Random();
-            for (var i = 0; i < 10000; i++)
+            for (var i = 0; i < 100; i++)
             {
                 list.Add(new UserInfo()
                 {
@@ -66,14 +68,15 @@ namespace ExcelCake.Example
                     Name = "Test" + (i + 1),
                     Sex = sex[random.Next(2)],
                     Age = random.Next(20, 50),
-                    Email = "testafsdgfashgawefqwefasdfwefqwefasdggfaw" + (i + 1) + "@163.com"
+                    Email = "testafsdgfashgawefqwefasdfwefqwefasdggfaw" + (i + 1) + "@163.com",
+                    TelPhone = "1399291" + random.Next(1000, 9999)
                 });
                 list2.Add(new AccountInfo()
                 {
                     ID = i + 1,
                     Nickname = "nick" + (i + 1),
                     Password = random.Next(111111, 999999).ToString(),
-                    OldPassword=random.Next(111111, 999999).ToString(),
+                    OldPassword = random.Next(111111, 999999).ToString(),
                     AccountStatus = random.Next(2)
                 });
             }

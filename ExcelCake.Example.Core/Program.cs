@@ -10,11 +10,11 @@ namespace ExcelCake.Example.Core
     {
         static void Main(string[] args)
         {
-            IntrusiveExport();
-            IntrusiveMultiSheetExport();
-            NoIntrusiveExport();
+            //IntrusiveExport();
+            //IntrusiveMultiSheetExport();
+            //NoIntrusiveExport();
             IntrusiveImport();
-            
+
             Console.ReadKey();
         }
 
@@ -31,7 +31,8 @@ namespace ExcelCake.Example.Core
                     Name = "Test" + (i + 1),
                     Sex = sex[random.Next(2)],
                     Age = random.Next(20, 50),
-                    Email = "test" + (i + 1) + "@163.com"
+                    Email = "test" + (i + 1) + "@163.com",
+                    TelPhone = "1399291" + random.Next(1000,9999)
                 });
             }
             var temp = list.ExportToExcelBytes(); //导出为byte[]
@@ -65,7 +66,8 @@ namespace ExcelCake.Example.Core
                     Name = "Test" + (i + 1),
                     Sex = sex[random.Next(2)],
                     Age = random.Next(20, 50),
-                    Email = "testafsdgfashgawefqwefasdfwefqwefasdggfaw" + (i + 1) + "@163.com"
+                    Email = "testafsdgfashgawefqwefasdfwefqwefasdggfaw" + (i + 1) + "@163.com",
+                    TelPhone = "1399291" + random.Next(1000, 9999)
                 });
                 list2.Add(new AccountInfo()
                 {

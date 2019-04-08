@@ -94,15 +94,30 @@ namespace ExcelCake.Intrusive
             int maxColumnNum = sheet.Dimension.End.Column;
             int maxRowNum = sheet.Dimension.End.Row;
 
+            var mergeList = sheet.MergedCells;
+
             for (int m = 1; m <= maxColumnNum; m++)
             {
-                var cell = sheet.Cells[importSetting.ImportStyle.HeadRowIndex, m];
+                int cellRow = importSetting.ImportStyle.DataRowIndex - 1;
+                var cell = sheet.Cells[cellRow, m];
+                if (cell.Merge)
+                {
+                    var index = sheet.GetMergeCellId(cellRow, m);
+                    var range = sheet.MergedCells[index-1]?.Split(new char[1] {':' },StringSplitOptions.RemoveEmptyEntries);
+                    if (range != null && range.Length > 0)
+                    {
+                        cell = sheet.Cells[range[0]];
+                    }
+                }
+
                 var importColumn = importSetting.ImportColumns.Where(o => o.Text == cell.Text?.Trim()).FirstOrDefault();
                 if (importColumn != null)
                 {
                     importColumn.ColumnIndex = m;
                 }
             }
+
+            importSetting.ImportColumns = importSetting.ImportColumns.Where(o => o.ColumnIndex > 0).ToList();
 
             for (int n = importSetting.ImportStyle.DataRowIndex; n <= maxRowNum; n++)
             {
