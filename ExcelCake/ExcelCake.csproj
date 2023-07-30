@@ -13,6 +13,12 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <Compile Remove="NoIntrusive\TemplateSetting\**" />
+    <EmbeddedResource Remove="NoIntrusive\TemplateSetting\**" />
+    <None Remove="NoIntrusive\TemplateSetting\**" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <Compile Remove="Intrusive\Attribute\ExportMergeHeadAttribute.cs" />
     <Compile Remove="Intrusive\Attribute\ExportSortAttribute.cs" />
     <Compile Remove="Intrusive\Attribute\NoExportAttribute.cs" />
