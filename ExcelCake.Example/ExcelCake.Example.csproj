@@ -50,6 +50,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Template\复杂格式测试模板%28新语法%29.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Template\复杂格式测试模板.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

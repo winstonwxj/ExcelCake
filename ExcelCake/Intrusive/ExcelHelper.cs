@@ -167,7 +167,7 @@ namespace ExcelCake.Intrusive
                                 var isMatch = Regex.IsMatch((string)value, item.DataVerReg);
                                 if (!isMatch && item.IsRegFailThrowException)
                                 {
-                                    throw new ImportFormatException();
+                                    throw new ImportFormatException("正则表达式解析异常");
                                 }
                             }
 

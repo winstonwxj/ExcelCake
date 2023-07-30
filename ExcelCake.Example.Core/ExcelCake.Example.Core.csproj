@@ -10,6 +10,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Template\复杂格式测试模板%28新语法%29.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Template\复杂格式测试模板.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

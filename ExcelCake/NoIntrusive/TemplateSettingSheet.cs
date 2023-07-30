@@ -61,37 +61,73 @@ namespace ExcelCake.NoIntrusive
                 }
                 foreach (var item in arry)
                 {
-                    if (item.IndexOf(":") > -1 && item.IndexOf(";") > -1)
+                    if ((item.IndexOf(":") > -1 && item.IndexOf(";") > -1)||item.StartsWith("@"))
                     {
-                        var settingItemArry = item.Split(new char[1] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-                        if (settingItemArry.Length == 0)
-                        {
-                            continue;
-                        }
                         var setting = new TemplateSettingRange();
-                        foreach (var arryItem in settingItemArry)
+                        if (item.StartsWith("@"))
                         {
-                            var settingItem = arryItem.Split(':');
-                            if (settingItem.Length < 2)
-                            {
-                                continue;
-                            }
-                            var key = settingItem[0];
-                            var value = settingItem[1];
-                            if (string.IsNullOrEmpty(key))
+                            setting.Type = "VALUE";
+                            setting.Field = item.Replace("@","").ToUpper();
+                        }
+                        else
+                        {
+                            var settingItemArry = item.Split(new char[1] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                            if (settingItemArry.Length == 0)
                             {
                                 continue;
                             }
 
-                            switch (key.ToUpper())
+                            foreach (var arryItem in settingItemArry)
                             {
-                                case "TYPE": { setting.Type = value.ToUpper(); } break;
-                                case "DATASOURCE": { setting.DataSource = value.ToUpper(); } break;
-                                case "ADDRESSLEFTTOP": { setting.AddressLeftTop = value.ToUpper(); } break;
-                                case "ADDRESSRIGHTBOTTOM": { setting.AddressRightBottom = value.ToUpper(); } break;
-                                case "FIELD": { setting.Field = value.ToUpper(); } break;
+                                var settingItem = arryItem.Split(':');
+                                if (settingItem.Length < 2)
+                                {
+                                    continue;
+                                }
+                                var key = settingItem[0];
+                                var value = settingItem[1];
+                                if (string.IsNullOrEmpty(key))
+                                {
+                                    continue;
+                                }
+
+                                switch (key.ToUpper())
+                                {
+                                    //旧语法
+                                    case "TYPE": { setting.Type = value.ToUpper(); } break;
+                                    case "DATASOURCE": { setting.DataSource = value.ToUpper(); } break;
+                                    case "ADDRESSLEFTTOP": { setting.AddressLeftTop = value.ToUpper(); } break;
+                                    case "ADDRESSRIGHTBOTTOM": { setting.AddressRightBottom = value.ToUpper(); } break;
+                                    case "FIELD": { setting.Field = value.ToUpper(); } break;
+                                    //新语法
+                                    case "DATA": { setting.Type = "FREE"; setting.DataSource = value.ToUpper(); } break;
+                                    case "LIST": { setting.Type = "GRID"; setting.DataSource = value.ToUpper(); } break;
+                                    case "LT": { setting.AddressLeftTop = value.ToUpper(); } break;
+                                    case "RB": { setting.AddressRightBottom = value.ToUpper(); } break;
+                                    case "ADDRESS": { 
+                                        var addStr = value.ToUpper();
+                                        if (addStr.IndexOf("@") > -1)
+                                        {
+                                            var addArr = addStr.Split(new char[1] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                                                if (settingItem.Length == 2)
+                                                {
+                                                    setting.AddressLeftTop = addArr[0];
+                                                    setting.AddressLeftTop = addArr[1];
+                                                }
+                                        }
+                                        else
+                                        {
+                                            if (addStr.Length == 4)
+                                            {
+                                                    setting.AddressLeftTop = addStr.Substring(0, 2);
+                                                    setting.AddressLeftTop = addStr.Substring(2, 2);
+                                                }
+                                        }
+                                        } break;
+                                }
                             }
                         }
+                        
                         setting.CurrentCell = cell;
                         setting.SettingString = "{" + item + "}";
                         if (string.IsNullOrEmpty(setting.Type))
@@ -120,6 +156,7 @@ namespace ExcelCake.NoIntrusive
                         }
                         else if (setting.Type == "VALUE")
                         {
+                            //旧语法
                             _FieldSettingList.Add(setting);
                         }
 

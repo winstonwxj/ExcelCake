@@ -12,8 +12,8 @@ namespace ExcelCake.Example.Core
         {
             //IntrusiveExport();
             //IntrusiveMultiSheetExport();
-            //NoIntrusiveExport();
-            IntrusiveImport();
+            NoIntrusiveExport();
+            //IntrusiveImport();
 
             Console.ReadKey();
         }
@@ -101,7 +101,8 @@ namespace ExcelCake.Example.Core
             var reportInfo = new GradeReportInfo();
             var exportTitle = "2018学年期中考试各班成绩汇总";
             reportInfo.ReportTitle = exportTitle;
-            var templateFileName = "复杂格式测试模板.xlsx";
+            //var templateFileName = "复杂格式测试模板.xlsx";
+            var templateFileName = "复杂格式测试模板(新语法).xlsx";
 
             #region 构造数据
             var list1 = new List<ClassInfo>();
@@ -223,7 +224,7 @@ namespace ExcelCake.Example.Core
             reportInfo.List3 = list3;
 
             ExcelTemplate customTemplate = new ExcelTemplate(templateFileName);
-            var byteInfo = customTemplate.ExportToBytes(reportInfo, "Template/复杂格式测试模板.xlsx");
+            var byteInfo = customTemplate.ExportToBytes(reportInfo, "Template/"+ templateFileName);
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Export");
             if (!Directory.Exists(path))
             {

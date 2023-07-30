@@ -106,6 +106,11 @@ namespace ExcelCake
         /// <param name="col"></param>
         public static void CalcRowCol(string cellAddress, out int row, out int col)
         {
+            if (string.IsNullOrWhiteSpace(cellAddress))
+            {
+                throw new ImportFormatException("单元格地址非法");
+            }
+
             string rowStr = "";
             string colStr = "";
             foreach (var item in cellAddress)
