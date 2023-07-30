@@ -6,12 +6,17 @@
 [![](https://img.shields.io/badge/EPPlus-v4.5.3-brightgreen.svg)](https://github.com/JanKallman/EPPlus)
 ![](https://img.shields.io/badge/%E4%BD%9C%E8%80%85-winstonwxj-orange.svg)
 
+## 分支说明
+- master:默认分支,不接受合并。
+- Dev:开发分支，接收合并。支持.net core 3.1及以上。
+- OldVersion:旧版本分支(.net3.5、.net4.0、.net standard 2.0、.net standard 2.1版本代码)。有需要可以下载此分支。不承诺该分支的维护工作。
+
 ## 特性
 
 - 快速实现 Excel 导入导出功能
-- 老旧项目(.net 3.5、.net 4.0)支持
-- 跨平台支持(.net standard 2.0)
-- 两套实现机制:1.基于特性实现的导入导出(侵入式) 2.基于模板实现的导入导出(非侵入式)
+- ~~老旧项目(.net 3.5、.net 4.0、.net standard 2.0、.net standard 2.1)支持~~(旧版本代码移步至OldVersion分支)
+- 跨平台支持(.net core 3.1及以上)
+- 多种实现机制:1.基于特性实现的导入导出(侵入式) 2.基于模板实现的导入导出(非侵入式) 3.读取配置实现导出(非侵入式)
 
 ## ExcelCake 源码结构
 
@@ -19,26 +24,68 @@
 |--ExcelCake                 源码
 |----Intrusive             侵入式部分
 |----NoIntrusive           非侵入式部分
-|--ExcelCake.Example         .net framework版Demo
-|--ExcelCake.Example.Core    .net core版Demo
-|--ExcelCake.Test            .net core版单元测试
+|--ExcelCake.Example         Demo
+|--ExcelCake.Test            单元测试
 ```
 
 ## **作者相关**
 
 github: https://github.com/winstonwxj
-gitee: https://gitee.com/winstonwxj
+
+gitee: <https://gitee.com/winstonwxj>(不再维护)
 
 ## 路线图
 
-- 基于特性表格导出(已实现)
-- 基于模板表格导出(已实现)
-- 基于特性表格导入(已实现)
-- 基于模板表格导入
+- 基于特性数据导出(已实现)
+- 基于特性数据导入(已实现)
+- 基于特性图片导出
 - 基于特性图表导出
+- 基于模板表格导出(已实现)
+- 基于模板表格导入
+- 基于模板图片导出
 - 基于模板图表导出
+- 基于配置数据动态导出
+- 基于配置数据动态导入
+- 基于配置图片动态导出
+- 基于配置图标动态导出
+- 使用其他office open xml实现替代EPPlus
 
-## 使用
+## 模板语法
+### （新版语法）
+**语法可用的最小粒度为配置项，每个配置项使用大括号包裹，各项之间以分号”;”分隔，项和值之间以冒号”:”分隔，忽略大小写。地址配置项为Address时，值以,分隔。**
+- Data:数据源，该项值为数据源中的成员变量，类型必须为属性（含get，set），不支持字段,Type不为Value时可用。如果Value配置字段为数据源直接属性，该项为空。用于Free配置类型(自由格式配置)
+- List:数据源，该项值为数据源中的成员变量，类型必须为属性（含get，set），不支持字段,Type不为Value时可用。如果Value配置字段为数据源集合单个实体的直接属性，该项为空。用于Grid配置类型(表格格式配置)该项值为数据源中的成员变量，类型必须为属性（含get，set），不支持字段,Type不为Value时可用。如果Value配置字段为数据源直接属性，该项为空。
+- @:填充字段名称
+LT:区域左上角单元格坐标,Type不为Value时可用
+RB:区域右下角单元格坐标,Type不为Value时可用
+Address:指定区域地址，以,号分隔的“区域左上角单元格坐标”和“区域右下角单元格坐标”
+
+**配置示例：**
+1. 自由格式
+{Data:具体对象;LT:区域左上坐标;RB:区域右下坐标}
+或{Data:具体对象;Address:区域左上坐标,区域右下坐标}
+2. 表格格式
+{List:具体对象(集合类型，不支持数组);LT:区域左上坐标;RB:区域右下坐标}
+或{List:具体对象(集合类型，不支持数组);Address:区域左上坐标,区域右下坐标}
+3. 具体填充字段名称
+{@字段名称}
+
+### （新版语法）
+**语法可用的最小粒度为配置项，每个配置项使用大括号包裹，各项之间以分号”;”分隔，项和值之间以冒号”:”分隔，忽略大小写。地址配置项为Address时，值以,分隔。**
+- Type:配置类型，包括Free(自由格式配置),Grid(表格格式配置),Value(填充字段配置)
+- DataSource:数据源，该项值为数据源中的成员变量，类型必须为属性（含get，set），不支持字段,Type不为Value时可用。如果Value配置字段为数据源直接属性，该项为空。
+- AddressLeftTop:区域左上角单元格坐标,Type不为Value时可用
+- AddressRightBottom:区域右下角单元格坐标,Type不为Value时可用
+- Field:字段名称，Type为Value时可用
+
+**配置示例：**
+1. 自由格式
+{Type:Free;DataSource:具体对象;AddressLeftTop:区域左上坐标;AddressRightBottom:区域右下坐标}
+2. 表格格式
+{Type:Grid;DataSource:具体对象(集合类型，不支持数组);AddressLeftTop:区域左上坐标;AddressRightBottom:区域右下坐标}
+3. 具体填充字段名称
+{Type:Value;Field:字段名称}
+
 
 ## 示例
 
@@ -208,7 +255,8 @@ gitee: https://gitee.com/winstonwxj
 
 ### 基于模板部分
 #### 模板绘制
-![avatar](./pics/pic6.PNG)
+(旧版语法)![avatar](./pics/pic6.PNG)
+(新版语法)![avatar](./pics/pic6new.PNG)
 
 #### 基于模板导出
 ```C#

@@ -106,23 +106,13 @@ namespace ExcelCake.NoIntrusive
                                     case "RB": { setting.AddressRightBottom = value.ToUpper(); } break;
                                     case "ADDRESS": { 
                                         var addStr = value.ToUpper();
-                                        if (addStr.IndexOf("@") > -1)
+                                        var addArr = addStr.Split(new char[1] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                        if (settingItem.Length == 2)
                                         {
-                                            var addArr = addStr.Split(new char[1] { ':' }, StringSplitOptions.RemoveEmptyEntries);
-                                                if (settingItem.Length == 2)
-                                                {
-                                                    setting.AddressLeftTop = addArr[0];
-                                                    setting.AddressLeftTop = addArr[1];
-                                                }
+                                            setting.AddressLeftTop = addArr[0];
+                                            setting.AddressRightBottom = addArr[1];
                                         }
-                                        else
-                                        {
-                                            if (addStr.Length == 4)
-                                            {
-                                                    setting.AddressLeftTop = addStr.Substring(0, 2);
-                                                    setting.AddressLeftTop = addStr.Substring(2, 2);
-                                                }
-                                        }
+
                                         } break;
                                 }
                             }
