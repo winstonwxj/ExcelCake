@@ -145,23 +145,23 @@ namespace ExcelCake.Intrusive
                         var value = sheet.Cells[n, item.ColumnIndex].Value;
                         if (value != null && value.ToString() != "")
                         {
-                            if (item.IsConvert)
-                            {
-                                var tempProperty = entityType.GetProperty(item.TempField);
-                                if (tempProperty != null)
-                                {
-                                    tempProperty.SetValue(entity, value, null);
-                                }
-                                else
-                                {
-                                    var tempField = entityType.GetField(item.TempField);
-                                    if (tempField != null)
-                                    {
-                                        tempField.SetValue(entity, value);
-                                    }
-                                }
-                                continue;
-                            }
+                            //if (item.IsConvert)
+                            //{
+                            //    var tempProperty = entityType.GetProperty(item.TempField);
+                            //    if (tempProperty != null)
+                            //    {
+                            //        tempProperty.SetValue(entity, value, null);
+                            //    }
+                            //    else
+                            //    {
+                            //        var tempField = entityType.GetField(item.TempField);
+                            //        if (tempField != null)
+                            //        {
+                            //            tempField.SetValue(entity, value);
+                            //        }
+                            //    }
+                            //    continue;
+                            //}
                             
                             if (property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
                             {

@@ -1,7 +1,6 @@
-﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace XLSXCake.Test
+namespace ExcelCake.Test
 {
     [TestClass]
     public class UnitTest1
